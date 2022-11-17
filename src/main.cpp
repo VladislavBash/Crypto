@@ -1,6 +1,6 @@
 #include <iostream>
-#include "Polynomial.h"
-#include "Monomial.h"
+// #include "Polynomial.h"
+// #include "Monomial.h"
 int main(int, char**) {
     // Polynomial arr{Monomial{1,4}, Monomial{2,3}, Monomial{6,2}, Monomial{9,1}};
     // std::cout << arr.at(2).getKoef();

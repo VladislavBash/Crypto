@@ -1,8 +1,8 @@
 #include <vector>
 #include <string>
-#include "Substitution.h"
-#include "Galois_field.h"
-#include "Recurrent_Affine_Cipher.h"
+#include "Substitution.hpp"
+#include "Galois_field.hpp"
+#include "Recurrent_Affine_Cipher.hpp"
 
     // void Recurrent_Affine_Cipher::compNewA() {
     //     this->a.push_back( (this->a.at(a.size()-1)) * (this->a.at(a.size()-2)) );

@@ -1,8 +1,8 @@
 #pragma once
 #include <vector>
 #include <string>
-#include "Substitution.h"
-#include "Galois_field.h"
+#include "Substitution.hpp"
+#include "Galois_field.hpp"
 class Recurrent_Affine_Cipher {
     std::vector<Galois_field> a;
     std::vector<Galois_field> ra;

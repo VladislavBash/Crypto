@@ -1,11 +1,12 @@
 #include "doctest.h"
-#include "Affine_Cipher.h"
-#include "Counter.h"
-#include "Galois_field.h"
-#include "Monomial.h"
-#include "Polynomial.h"
-#include "Recurrent_Affine_Cipher.h"
-#include "Substitution.h"
+#include <string>
+// #include "Affine_Cipher.hpp"
+#include "Counter.hpp"
+// #include "Galois_field.hpp"
+#include "Monomial.hpp"
+// #include "Polynomial.hpp"
+// #include "Recurrent_Affine_Cipher.hpp"
+// #include "Substitution.hpp"
 
 TEST_CASE("CHECK_AFFINE_CIPHER") {
     // REQUIRE();
@@ -48,6 +49,16 @@ TEST_CASE("CHECK_GALOIS_FIELD") {
 }
 
 TEST_CASE("CHECK_MONOMIAL") {
+    int k = 12;
+    int p = 14;
+    Monomial a{k, p};
+    REQUIRE(a.getKoef() == k);
+    REQUIRE(a.getPow() == p);
+    std::string str = "*x^";
+    str = std::to_string(k) + str + std::to_string(p);
+    Monomial b{str};
+    REQUIRE(b.getKoef() == k);
+    REQUIRE(b.getPow() == p);
     // REQUIRE();
 }
 

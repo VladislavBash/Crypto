@@ -28,6 +28,6 @@ class Monomial { // Одночлен
     int getPow();
 };
 
-extern Monomial operator* (Monomial a, Monomial b);
-extern Monomial operator+ (Monomial a, Monomial b);
-extern Monomial operator- (Monomial a, Monomial b);
+// extern Monomial operator* (Monomial a, Monomial b);
+// extern Monomial operator+ (Monomial a, Monomial b);
+// extern Monomial operator- (Monomial a, Monomial b);

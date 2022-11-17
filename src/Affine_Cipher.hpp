@@ -1,7 +1,7 @@
 #pragma once
 #include <string>
-#include "Substitution.h"
-#include "Galois_field.h"
+#include "Substitution.hpp"
+#include "Galois_field.hpp"
 class Affine_Cipher {
     Galois_field a;
     Galois_field b;

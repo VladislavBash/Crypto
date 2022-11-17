@@ -1,6 +1,6 @@
 // #include <vector>
-// #include "Polynomial.h"
-// #include "Galois_field.h"
+// #include "Polynomial.hpp"
+// #include "Galois_field.hpp"
 // class  Galois_field { // Поле Галуа
 //     int p;
 //     int n;

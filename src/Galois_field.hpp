@@ -1,6 +1,6 @@
 #pragma once
 #include <vector>
-#include "Polynomial.h"
+#include "Polynomial.hpp"
 class  Galois_field { // Поле Галуа
     int p;
     int n;

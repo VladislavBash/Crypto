@@ -1,7 +1,7 @@
 #pragma once
 #include <vector>
-#include "Monomial.h"
-#include "Counter.h"
+#include "Monomial.hpp"
+#include "Counter.hpp"
 class Polynomial { // Многочлен, по сути массив одночленов
     int size = 0;
     Monomial* elem = nullptr;
@@ -25,6 +25,6 @@ class Polynomial { // Многочлен, по сути массив одноч�
     Monomial at(int num);
 };
 
-extern Polynomial operator* (Polynomial a, Polynomial b);
-extern Polynomial operator+ (Polynomial a, Polynomial b);
-extern Polynomial operator- (Polynomial a, Polynomial b);
+// extern Polynomial operator* (Polynomial a, Polynomial b);
+// extern Polynomial operator+ (Polynomial a, Polynomial b);
+// extern Polynomial operator- (Polynomial a, Polynomial b);

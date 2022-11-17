@@ -10,6 +10,7 @@ class Counter { // n p
   public:
   Counter(int x, int y = 2): p(y), n(x) { count = new int[static_cast<unsigned long long>(x-1)]{0}; }
   ~Counter() { delete[] count; }
+  int* getCount();
   int getSize();
   int getVal(int i);
   // int* operator++(int);

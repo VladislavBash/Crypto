@@ -1,7 +1,7 @@
 #include <string>
-#include "Substitution.h"
-#include "Galois_field.h"
-#include "Affine_Cipher.h"
+#include "Substitution.hpp"
+#include "Galois_field.hpp"
+#include "Affine_Cipher.hpp"
 
     // void Affine_Cipher::Encrypt() {
     //     this->clText = "";
