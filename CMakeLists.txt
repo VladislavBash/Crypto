@@ -1,6 +1,6 @@
 cmake_minimum_required(VERSION 3.10.0)
 
-project("Monte-Carlo" CXX)
+project("Cryptography" CXX)
 option(CLOUD OFF "Enable all sanitizers")
 if(CLOUD)
     add_compile_options(-fsanitize=undefined,address,leak,pointer-compare,pointer-subtract)
