@@ -1,5 +1,5 @@
 #include "doctest.h"
-#include "crypto.hpp"
+#include "Counter.h"
 // #include <math.h>
 // #include <iomanip>
 // #define pi 3.1415926535897932
@@ -15,7 +15,14 @@
 TEST_CASE("CHECK_COUNTER") {
     Counter a(5,2); //0000
     int* lst = new int[4]{0,0,0,1};
-    REQUIRE(a++ == lst); // 0001
+    REQUIRE(a.count[0] == 0); // 0001
+    REQUIRE(a.count[1] == 0); // 0001
+    REQUIRE(a.count[2] == 0); // 0001
+    //a++;
+    REQUIRE((++a).count[3] == 1); // 0001
+    // ++a;
+    REQUIRE((++a).count[3] == 0); // 0001
+    REQUIRE(a.count[2] == 1); // 0001
     // REQUIRE(getRatio(2) == 31.599);
     // REQUIRE(getRatio(11) == 4.436);
     // REQUIRE(getRatio(22) == 3.792);
