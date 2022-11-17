@@ -1,5 +1,8 @@
 #pragma once
-class Counter { // n p
+
+class ERR {};
+
+class Counter { // pow koefs
   public:
   int p;
   int n;
@@ -8,7 +11,7 @@ class Counter { // n p
   // static int* count;
   int* count = nullptr;
   public:
-  Counter(int x, int y = 2): p(y), n(x) { count = new int[static_cast<unsigned long long>(x-1)]{0}; }
+  Counter(int x, int y = 2): p(y), n(x) { count = new int[static_cast<size_t>(x-1)]{0}; }
   ~Counter() { delete[] count; }
   int* getCount();
   int getSize();
@@ -21,6 +24,8 @@ class Counter { // n p
     while (this->count[k] == this->p) {
         this->count[k] = 0;
         k--;
+        if (k == -1)
+          throw ERR();
         this->count[k]++;
     }
     return *this;

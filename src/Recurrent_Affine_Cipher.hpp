@@ -1,7 +1,7 @@
 #pragma once
 #include <vector>
 #include <string>
-#include "Substitution.hpp"
+#include "Substitution_Cipher.hpp"
 #include "Galois_field.hpp"
 class Recurrent_Affine_Cipher {
     std::vector<Galois_field> a;

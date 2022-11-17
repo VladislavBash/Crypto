@@ -18,13 +18,27 @@ class Polynomial { // Многочлен, по сути массив одноч�
     //     }
     //     std::copy(a.begin(), a.end(), elem);
     // }
-    Polynomial(Counter lst);
-    Polynomial(std::initializer_list<Monomial> lst);
-    Polynomial(Monomial* lst, int s);
+    Polynomial(Counter& lst): size(lst.getSize()) {
+        this->elem = new Monomial[static_cast<unsigned long long>(lst.getSize())];
+        int kof = 0;
+        int pw = 0;
+        for (int i =0; i<lst.getSize(); i++) {
+            kof = lst.getVal(lst.getSize()-1-i);
+            pw = i;
+            this->elem[i].setKoef(lst.getVal(lst.getSize()-1-i));
+            this->elem[i].setPow(i);
+        }
+    }
+    Polynomial(std::initializer_list<Monomial> lst): size(static_cast<int>(lst.size())), elem(new Monomial[static_cast<unsigned long long>(size)])  {
+        std::copy(lst.begin(), lst.end(), elem);
+    }
+    Polynomial(Monomial*& lst, int s): size(s), elem(lst) {}
+    ~Polynomial() { delete[] elem; }
     int getSize() const;
-    Monomial at(int num);
+    Monomial at(int num) const;
 };
 
+bool operator== (const Polynomial& a, const Polynomial& b);
 // extern Polynomial operator* (Polynomial a, Polynomial b);
 // extern Polynomial operator+ (Polynomial a, Polynomial b);
 // extern Polynomial operator- (Polynomial a, Polynomial b);

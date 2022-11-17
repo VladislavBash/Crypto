@@ -1,20 +1,23 @@
-// #include <vector>
-// #include "Polynomial.hpp"
-// #include "Galois_field.hpp"
-// class  Galois_field { // Поле Галуа
-//     int p;
-//     int n;
-//     std::vector<int> pole;
-//     std::vector<Polynomial> group;
-//     public:
-//     Galois_field(int y, int x = 2): p(x), n(y) {
-//         Monomial* lst = new Monomial[n-1];
-//         for (int i=0; i<p; i++) { pole.push_back(i); }
-//         for () { // группа поля галуа создание
-//             for () {
-//                 group.push_back(Polynomial(0000));
-//             }
-//         };
-//     } // задаётся сначала p, потом n
-//     ~Galois_field() {}
-// };
+#include <vector>
+#include <math.h>
+#include "Polynomial.hpp"
+#include "Galois_field.hpp"
+
+// int times(int x, int y) {
+//     int s = 0;
+//     for (int z=0; z<y-1; z++) {
+//         s += pow(x, z);
+//     }
+//     return (x-1)*s;
+// }
+
+// Galois_field::Galois_field(int y, int x = 2) {
+//     for (int i=0; i<x; i++) {
+//         this->pole.push_back(i);
+//     }
+//     Counter c{y,x};
+//     for (int k=0; k<times(x,y); k++) {
+//         this->group.push_back(Polynomial{c}); // 000 y = 3   0000 y = 4
+//         ++c;
+//     }
+// }

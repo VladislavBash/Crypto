@@ -5,8 +5,8 @@ class Monomial { // Одночлен
     int pow = 0;
     public:
     // Monomial() {}
-    Monomial();
-    Monomial(int k, int p): koef(k), pow(p) {};
+    Monomial() {};
+    Monomial(int k, int p): koef(k), pow(p) {}; // koef pow
     Monomial(std::string str) {
         if (str.find('x') == 0) { // 15*x^42
             this->koef = 1;
@@ -26,8 +26,12 @@ class Monomial { // Одночлен
     ~Monomial() {}
     int getKoef();
     int getPow();
+    void setKoef(int x);
+    void setPow(int x);
 };
 
+// extern bool operator== (Monomial a, Monomial b);
+bool operator== (Monomial a, Monomial b);
 // extern Monomial operator* (Monomial a, Monomial b);
 // extern Monomial operator+ (Monomial a, Monomial b);
 // extern Monomial operator- (Monomial a, Monomial b);

@@ -1,5 +1,5 @@
 #include <string>
-#include "Substitution.hpp"
+#include "Substitution_Cipher.hpp"
 #include "Galois_field.hpp"
 #include "Affine_Cipher.hpp"
 

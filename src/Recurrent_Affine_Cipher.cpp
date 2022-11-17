@@ -1,6 +1,6 @@
 #include <vector>
 #include <string>
-#include "Substitution.hpp"
+#include "Substitution_Cipher.hpp"
 #include "Galois_field.hpp"
 #include "Recurrent_Affine_Cipher.hpp"
 
