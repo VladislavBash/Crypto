@@ -92,7 +92,7 @@ TEST_CASE("CHECK_MONOMIAL") {
 
 TEST_CASE("CHECK_POLYNOMIAL") {
     // REQUIRE();
-    Counter lst(3,2);
+    Counter lst(2,2);
     ++lst;
     ++lst;
     ++lst;
@@ -122,14 +122,14 @@ TEST_CASE("CHECK_POLYNOMIAL") {
     REQUIRE(b == c);
 }
 
-// TEST_CASE("CHECK_GALOIS_FIELD") {
-//     // REQUIRE();
-//     Galois_field a{2,2};
-//     Counter c{2,2};
-//     // ++c;
-//     // ++c;
-//     // REQUIRE(a.group.at(2) == Polynomial(c));
-// }
+TEST_CASE("CHECK_GALOIS_FIELD") {
+    // REQUIRE();
+    Galois_field a{2,2};
+    // Counter c{2,2};
+    // ++c;
+    // ++c;
+    // REQUIRE(a.group.at(2) == Polynomial(c));
+}
 
 TEST_CASE("CHECK_SUBSTIOTUTION_CIPHER") {
     // REQUIRE();

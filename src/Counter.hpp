@@ -6,12 +6,17 @@ class Counter { // pow koefs
   public:
   int p;
   int n;
-  int size = n - 1;
+  int size = n;
 //   static int* count[n-1] = {};
   // static int* count;
   int* count = nullptr;
   public:
-  Counter(int x, int y = 2): p(y), n(x) { count = new int[static_cast<size_t>(x-1)]{0}; }
+  // Counter(int x, int y = 2): p(y), n(x) { count = new int[static_cast<size_t>(x-1)]{0}; }
+  Counter(int x, int y = 2): p(y), n(x) {
+    count = new int[static_cast<size_t>(x)];
+    for (int u=0; u<x; u++) {
+      count[u] = u+1;}
+    }
   ~Counter() { delete[] count; }
   int* getCount();
   int getSize();

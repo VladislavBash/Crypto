@@ -33,7 +33,13 @@ class Polynomial { // Многочлен, по сути массив одноч�
         std::copy(lst.begin(), lst.end(), elem);
     }
     Polynomial(Monomial*& lst, int s): size(s), elem(lst) {}
-    ~Polynomial() { delete[] elem; }
+    ~Polynomial() { 
+        if (this->size == 1) {
+            elem = nullptr;
+        } else {
+            delete[] elem;
+        }
+    }
     int getSize() const;
     Monomial at(int num) const;
 };
