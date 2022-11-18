@@ -29,7 +29,7 @@ TEST_CASE("CHECK_COUNTER") {
     // REQUIRE(a.count[5-2] == 0);
 
 
-    Counter a(3,2); // 0 1
+    Counter a(2,2); // 0 1
     // int* lst = new int[4]{0,0,0,1};
     // REQUIRE(a.count[0] == 0); // 0001
     // REQUIRE(a.count[1] == 0); // 0001
@@ -125,10 +125,10 @@ TEST_CASE("CHECK_POLYNOMIAL") {
 TEST_CASE("CHECK_GALOIS_FIELD") {
     // REQUIRE();
     Galois_field a{2,2};
-    // Counter c{2,2};
-    // ++c;
-    // ++c;
-    // REQUIRE(a.group.at(2) == Polynomial(c));
+    Counter c{2,2};
+    ++c;
+    ++c;
+    REQUIRE(a.group.at(2) == Polynomial(c));
 }
 
 TEST_CASE("CHECK_SUBSTIOTUTION_CIPHER") {

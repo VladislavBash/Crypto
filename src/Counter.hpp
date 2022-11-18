@@ -1,5 +1,5 @@
 #pragma once
-
+#include <vector>
 class ERR {};
 
 class Counter { // pow koefs
@@ -9,15 +9,15 @@ class Counter { // pow koefs
   int size = n;
 //   static int* count[n-1] = {};
   // static int* count;
-  int* count = nullptr;
+  std::vector<int> count;
   public:
   Counter(int x, int y = 2): p(y), n(x) {
-    count = new int[static_cast<unsigned long long>(x-1)];
-    for (int u=0; u<x; u++) {
-      count[u] = 0;}
+    for (int i=0; i<x; i++) {
+      count.push_back(0);
     }
-  ~Counter() { count = nullptr; }
-  int* getCount();
+    }
+  ~Counter() { }
+  std::vector<int> getCount();
   int getSize();
   int getVal(int i);
   // int* operator++(int);

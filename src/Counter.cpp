@@ -1,6 +1,7 @@
 #include "Counter.hpp"
+#include <vector>
 
-int* Counter::getCount() { return this->count; }
+std::vector<int> Counter::getCount() { return this->count; }
 int Counter::getSize() { return this->size; }
 int Counter::getVal(int i) { return this->count[i]; }
 // Counter& Counter::operator++() {

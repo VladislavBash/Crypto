@@ -34,11 +34,11 @@ class Polynomial { // Многочлен, по сути массив одноч�
     }
     Polynomial(Monomial*& lst, int s): size(s), elem(lst) {}
     ~Polynomial() { 
-        if (this->size == 1) {
+        // if (this->size == 1) {
             elem = nullptr;
-        } else {
-            delete[] elem;
-        }
+        // } else {
+        //     delete[] elem;
+        // }
     }
     int getSize() const;
     Monomial at(int num) const;
