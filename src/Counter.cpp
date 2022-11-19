@@ -2,10 +2,10 @@
 // #include <vector>
 
 // std::vector<int> Counter::getCount() { return this->count; }
-int Counter::getSize() { return this->size; }
-int Counter::getBase() { return this->base; }
-int Counter::at(int i) { return this->count[size_t(i)]; }
-int Counter::maxInc() { return int(pow(this->base, this->size)-1); }
+int Counter::getSize() const { return this->size; }
+int Counter::getBase() const { return this->base; }
+int Counter::at(int i) const { return this->count[size_t(i)]; }
+int Counter::maxInc() const { return int(pow(this->base, this->size)-1); }
 // Counter& Counter::operator++() {
 //     int k = this->size - 1;
 //     this->count[k]++;

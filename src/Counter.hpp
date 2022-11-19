@@ -15,12 +15,12 @@ class Counter { // pow koefs
       count.push_back(0);
     }
     }
-  ~Counter() { }
+  ~Counter() {}
   // std::vector<int> getCount();
-  int getSize();
-  int getBase();
-  int at(int i);
-  int maxInc();
+  int getSize() const;
+  int getBase() const;
+  int at(int i) const;
+  int maxInc() const;
   // int* operator++(int);
   // Counter& operator++();
   Counter& operator++() {
