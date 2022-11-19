@@ -3,6 +3,7 @@
 #include "Monomial.hpp"
 #include "Counter.hpp"
 class Polynomial { // Многочлен, по сути массив одночленов
+    private:
     int size = 0;
     Monomial* elem = nullptr;
     public:
@@ -23,16 +24,17 @@ class Polynomial { // Многочлен, по сути массив одноч�
         int kof = 0;
         int pw = 0;
         for (int i =0; i<lst.getSize(); i++) {
-            kof = lst.getVal(lst.getSize()-1-i);
+            kof = lst.at(lst.getSize()-1-i);
             pw = i;
-            this->elem[i].setKoef(lst.getVal(lst.getSize()-1-i));
-            this->elem[i].setPow(i);
+            this->elem[i].setKoef(kof);
+            this->elem[i].setPow(pw);
         }
     }
     Polynomial(std::initializer_list<Monomial> lst): size(static_cast<int>(lst.size())), elem(new Monomial[static_cast<unsigned long long>(size)])  {
         std::copy(lst.begin(), lst.end(), elem);
+        this->sort();
     }
-    Polynomial(Monomial*& lst, int s): size(s), elem(lst) {}
+    Polynomial(Monomial*& lst, int s): size(s), elem(lst) { this->sort(); }
     ~Polynomial() { 
         // if (this->size == 1) {
             elem = nullptr;
@@ -42,9 +44,10 @@ class Polynomial { // Многочлен, по сути массив одноч�
     }
     int getSize() const;
     Monomial at(int num) const;
+    void sort();
 };
 
 bool operator== (const Polynomial& a, const Polynomial& b);
-// extern Polynomial operator* (Polynomial a, Polynomial b);
+Polynomial operator* (Polynomial a, Polynomial b);
 // extern Polynomial operator+ (Polynomial a, Polynomial b);
 // extern Polynomial operator- (Polynomial a, Polynomial b);
