@@ -10,11 +10,12 @@ bool operator== (Monomial a, Monomial b) {
         return true;
     return false;
 }
-// Monomial operator* (Monomial a, Monomial b) {
-//     int k = a.getKoef() * b.getKoef();
-//     int p = a.getPow() + b.getPow();
-//     return Monomial(k, p);
-// }
+
+Monomial operator* (Monomial a, Monomial b) {
+    int k = a.getKoef() * b.getKoef();
+    int p = a.getPow() + b.getPow();
+    return Monomial(k, p);
+}
 
 // Monomial operator+ (Monomial a, Monomial b) {
 //     // int k = a.getKoef() * b.getKoef();

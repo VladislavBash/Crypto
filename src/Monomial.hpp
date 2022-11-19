@@ -1,12 +1,11 @@
 #pragma once
 #include <string>
-class Monomial { // Одночлен
+class Monomial { // koef pow
     int koef = 0;
     int pow = 0;
     public:
-    // Monomial() {}
-    Monomial() {};
-    Monomial(int k, int p): koef(k), pow(p) {}; // koef pow
+    Monomial() {}
+    Monomial(int k, int p): koef(k), pow(p) {}
     Monomial(std::string str) {
         if (str.find('x') == 0) { // 15*x^42
             this->koef = 1;
@@ -20,7 +19,7 @@ class Monomial { // Одночлен
             std::string p = str.substr(str.find('x')+2, str.size()-1);
             this->pow = std::stoi(p); // k = '60'
         }
-    };
+    }
     // Monomial(int k, int p);
     // Monomial(std::string str);
     ~Monomial() {}
@@ -32,6 +31,6 @@ class Monomial { // Одночлен
 
 // extern bool operator== (Monomial a, Monomial b);
 bool operator== (Monomial a, Monomial b);
-// extern Monomial operator* (Monomial a, Monomial b);
+Monomial operator* (Monomial a, Monomial b);
 // extern Monomial operator+ (Monomial a, Monomial b);
 // extern Monomial operator- (Monomial a, Monomial b);
