@@ -136,6 +136,15 @@ TEST_CASE("CHECK_POLYNOMIAL") {
     REQUIRE(c.at(3).getKoef() == 1);
     REQUIRE(c.at(3).getPow() == 1);
     REQUIRE(b == c);
+
+    Polynomial a1{Monomial{5,2}, Monomial{1,1}};
+    Polynomial a2{Monomial{3,3}, Monomial{1,2}};
+    Polynomial a3{Monomial{15,5}, Monomial{8,4}, Monomial{1,3}};
+    REQUIRE(a1*a2 == a3);
+    a1 = {Monomial{1,0}, Monomial{1,0}};
+    a2 = {Monomial{1,0}, Monomial{1,0}};
+    a3 = {Monomial{4,0}};
+    REQUIRE(a1*a2 == a3);
 }
 
 TEST_CASE("CHECK_GALOIS_FIELD") {
