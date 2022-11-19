@@ -41,25 +41,25 @@ TEST_CASE("CHECK_COUNTER") {
     // REQUIRE(a.count[2] == 1); // 0001
 
 
-    REQUIRE(a.getVal(1) == 0);
-    REQUIRE(a.getVal(0) == 0);
+    REQUIRE(a.at(1) == 0);
+    REQUIRE(a.at(0) == 0);
     ++a;
-    REQUIRE(a.getVal(1) == 1);
-    REQUIRE(a.getVal(0) == 0);
+    REQUIRE(a.at(1) == 1);
+    REQUIRE(a.at(0) == 0);
     ++a;
-    REQUIRE(a.getVal(1) == 0);
-    REQUIRE(a.getVal(0) == 1);
+    REQUIRE(a.at(1) == 0);
+    REQUIRE(a.at(0) == 1);
     ++a;
-    REQUIRE(a.getVal(1) == 1);
-    REQUIRE(a.getVal(0) == 1);
+    REQUIRE(a.at(1) == 1);
+    REQUIRE(a.at(0) == 1);
 
     Counter c(3,2);
     int u = c.maxInc();
     for (int j=0; j<c.maxInc(); j++) {
         for (int i =0; i<a.getSize(); i++) {
             int l = j / pow(c.getBase(),i);
-            int o = c.getVal(c.getSize()-1-i);
-            REQUIRE(c.getVal(c.getSize()-1-i) == (l % c.getBase()));
+            int o = c.at(c.getSize()-1-i);
+            REQUIRE(c.at(c.getSize()-1-i) == (l % c.getBase()));
         }
         ++c;
     }

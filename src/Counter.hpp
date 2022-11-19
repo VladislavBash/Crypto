@@ -19,7 +19,7 @@ class Counter { // pow koefs
   // std::vector<int> getCount();
   int getSize();
   int getBase();
-  int getVal(int i);
+  int at(int i);
   int maxInc();
   // int* operator++(int);
   // Counter& operator++();
