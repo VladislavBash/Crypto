@@ -3,22 +3,22 @@
 class ERR {};
 
 class Counter { // pow koefs
-  public:
-  int p;
-  int n;
-  int size = p;
+  private:
+  int base;
+  int size;
 //   static int* count[n-1] = {};
   // static int* count;
   std::vector<int> count;
   public:
-  Counter(int x, int y = 2): p(x), n(y) {
+  Counter(int x, int y = 2): size(x), base(y) {
     for (int i=0; i<x; i++) {
       count.push_back(0);
     }
     }
   ~Counter() { }
-  std::vector<int> getCount();
+  // std::vector<int> getCount();
   int getSize();
+  int getBase();
   int getVal(int i);
   int maxInc();
   // int* operator++(int);
@@ -26,7 +26,7 @@ class Counter { // pow koefs
   Counter& operator++() {
     int k = this->size - 1;
     this->count[size_t(k)]++;
-    while (this->count[size_t(k)] == this->n) {
+    while (this->count[size_t(k)] == this->base) {
         this->count[size_t(k)] = 0;
         k--;
         if (k == -1)

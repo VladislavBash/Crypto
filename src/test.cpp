@@ -41,25 +41,25 @@ TEST_CASE("CHECK_COUNTER") {
     // REQUIRE(a.count[2] == 1); // 0001
 
 
-    REQUIRE(a.count[1] == 0);
-    REQUIRE(a.count[0] == 0);
+    REQUIRE(a.getVal(1) == 0);
+    REQUIRE(a.getVal(0) == 0);
     ++a;
-    REQUIRE(a.count[1] == 1);
-    REQUIRE(a.count[0] == 0);
+    REQUIRE(a.getVal(1) == 1);
+    REQUIRE(a.getVal(0) == 0);
     ++a;
-    REQUIRE(a.count[1] == 0);
-    REQUIRE(a.count[0] == 1);
+    REQUIRE(a.getVal(1) == 0);
+    REQUIRE(a.getVal(0) == 1);
     ++a;
-    REQUIRE(a.count[1] == 1);
-    REQUIRE(a.count[0] == 1);
+    REQUIRE(a.getVal(1) == 1);
+    REQUIRE(a.getVal(0) == 1);
 
     Counter c(3,2);
     int u = c.maxInc();
     for (int j=0; j<c.maxInc(); j++) {
-        for (int i =0; i<a.p; i++) {
-            int l = j / pow(c.n,i);
-            int o = c.count[c.getSize()-1-i];
-            REQUIRE(c.count[c.getSize()-1-i] == (l % c.n));
+        for (int i =0; i<a.getSize(); i++) {
+            int l = j / pow(c.getBase(),i);
+            int o = c.getVal(c.getSize()-1-i);
+            REQUIRE(c.getVal(c.getSize()-1-i) == (l % c.getBase()));
         }
         ++c;
     }
@@ -87,18 +87,23 @@ TEST_CASE("CHECK_COUNTER") {
 }
 
 TEST_CASE("CHECK_MONOMIAL") {
+    // int k = 12;
+    // int p = 14;
+    // Monomial a{k, p};
+    // REQUIRE(a.getKoef() == k);
+    // REQUIRE(a.getPow() == p);
+    // std::string str = "*x^";
+    // str = std::to_string(k) + str + std::to_string(p);
+    // Monomial b{str};
+    // REQUIRE(b.getKoef() == k);
+    // REQUIRE(b.getPow() == p);
+    // REQUIRE(a == b);
     int k = 12;
-    int p = 14;
+    int p = 32;
     Monomial a{k, p};
-    REQUIRE(a.getKoef() == k);
-    REQUIRE(a.getPow() == p);
-    std::string str = "*x^";
-    str = std::to_string(k) + str + std::to_string(p);
-    Monomial b{str};
-    REQUIRE(b.getKoef() == k);
-    REQUIRE(b.getPow() == p);
+    Monomial b{k, p};
     REQUIRE(a == b);
-    // REQUIRE();
+    REQUIRE(a*b == Monomial{k*k, p+p});
 }
 
 TEST_CASE("CHECK_POLYNOMIAL") {
