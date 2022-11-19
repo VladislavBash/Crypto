@@ -10,7 +10,7 @@ class Counter { // pow koefs
   // static int* count;
   std::vector<int> count;
   public:
-  Counter(int x, int y = 2): size(x), base(y) {
+  Counter(int x, int y = 2): base(y), size(x) {
     for (int i=0; i<x; i++) {
       count.push_back(0);
     }
