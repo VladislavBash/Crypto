@@ -3,7 +3,8 @@
 
 std::vector<int> Counter::getCount() { return this->count; }
 int Counter::getSize() { return this->size; }
-int Counter::getVal(int i) { return this->count[i]; }
+int Counter::getVal(int i) { return this->count[size_t(i)]; }
+int Counter::maxInc() { return int(pow(this->n, this->p)-1); }
 // Counter& Counter::operator++() {
 //     int k = this->size - 1;
 //     this->count[k]++;

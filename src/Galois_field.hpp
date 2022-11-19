@@ -26,12 +26,7 @@ class  Galois_field { // Поле Галуа
         this->pole.push_back(i);
     }
     Counter c{y,x};
-    int s = 0;
-    for (int z=0; z<y; z++) {
-        s += static_cast<int>(pow(x, z));
-    }
-    int l = (x-1)*s;
-    for (int k=0; k<l; k++) {
+    for (int k=0; k<c.maxInc(); k++) {
         Counter c1 = c;
         this->group.push_back(Polynomial{c1}); // 000 y = 3   0000 y = 4
         ++c;

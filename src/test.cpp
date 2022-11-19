@@ -52,6 +52,17 @@ TEST_CASE("CHECK_COUNTER") {
     ++a;
     REQUIRE(a.count[1] == 1);
     REQUIRE(a.count[0] == 1);
+
+    Counter c(3,2);
+    int u = c.maxInc();
+    for (int j=0; j<c.maxInc(); j++) {
+        for (int i =0; i<a.p; i++) {
+            int l = j / pow(c.n,i);
+            int o = c.count[c.getSize()-1-i];
+            REQUIRE(c.count[c.getSize()-1-i] == (l % c.n));
+        }
+        ++c;
+    }
     // REQUIRE(a.count[5-2] == 0);
     // REQUIRE((++a).count[5-2] == 1);
     // REQUIRE((++a).count[5-3] == 1);

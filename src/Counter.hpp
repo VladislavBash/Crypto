@@ -6,12 +6,12 @@ class Counter { // pow koefs
   public:
   int p;
   int n;
-  int size = n;
+  int size = p;
 //   static int* count[n-1] = {};
   // static int* count;
   std::vector<int> count;
   public:
-  Counter(int x, int y = 2): p(y), n(x) {
+  Counter(int x, int y = 2): p(x), n(y) {
     for (int i=0; i<x; i++) {
       count.push_back(0);
     }
@@ -20,17 +20,18 @@ class Counter { // pow koefs
   std::vector<int> getCount();
   int getSize();
   int getVal(int i);
+  int maxInc();
   // int* operator++(int);
   // Counter& operator++();
   Counter& operator++() {
     int k = this->size - 1;
-    this->count[k]++;
-    while (this->count[k] == this->p) {
-        this->count[k] = 0;
+    this->count[size_t(k)]++;
+    while (this->count[size_t(k)] == this->n) {
+        this->count[size_t(k)] = 0;
         k--;
         if (k == -1)
           throw ERR();
-        this->count[k]++;
+        this->count[size_t(k)]++;
     }
     return *this;
 }
