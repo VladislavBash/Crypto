@@ -35,4 +35,10 @@ class Counter { // pow koefs
     }
     return *this;
 }
+Counter& operator+(int x) {
+    for (int i =0; i<x; i++) {
+        ++(*this);
+    }
+    return *this;
+}
 };
