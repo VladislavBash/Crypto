@@ -26,6 +26,18 @@ void Polynomial::sort() { // increase-sort
     }
 }
 
+int Polynomial::getVal() {
+    int v = 0;
+    int k = 0;
+    int p = 0;
+    for (int i =0; i<this->size; i++) {
+        k = this->at(i).getKoef();
+        p = this->at(i).getPow();
+        v += int(k*pow(2,p));
+    }
+    return v;
+}
+
 bool operator== (const Polynomial& a, const Polynomial& b) {
 if (a.getSize() != b.getSize())
     return false;
