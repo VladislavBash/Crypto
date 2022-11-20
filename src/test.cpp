@@ -63,6 +63,15 @@ TEST_CASE("CHECK_COUNTER") {
         }
         ++c;
     }
+
+    Counter d{5,6};
+    auto i = d.maxInc();
+    d = d + 7425;
+    REQUIRE(d.at(0) == 5);
+    REQUIRE(d.at(1) == 4);
+    REQUIRE(d.at(2) == 2);
+    REQUIRE(d.at(3) == 1);
+    REQUIRE(d.at(4) == 3);
     // REQUIRE(a.count[5-2] == 0);
     // REQUIRE((++a).count[5-2] == 1);
     // REQUIRE((++a).count[5-3] == 1);
