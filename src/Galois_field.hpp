@@ -14,9 +14,9 @@
 class  Galois_field { // Поле Галуа
     int base = 0;
     int pow = 0;
-    std::map<Polynomial, std::map<Polynomial, Polynomial>> sumTable;
-    std::map<Polynomial, std::map<Polynomial, Polynomial>> multiTable;
-    std::map<Polynomial, Polynomial> revVector;
+    std::vector<std::vector<Polynomial>> sumTable;
+    std::vector<std::vector<Polynomial>> multiTable;
+    std::vector<Polynomial> revVector;
     public:
     // Polynomial irrPolynomial{};
     std::vector<int> pole;
@@ -52,8 +52,8 @@ class  Galois_field { // Поле Галуа
     // void constructRevVector();
     Polynomial atSumTable(Polynomial first, Polynomial second);
     Polynomial atMultiTable(Polynomial first, Polynomial second);
-    void inSumTable(Polynomial first, Polynomial second, Polynomial elem);
-    void inMultiTable(Polynomial first, Polynomial second, Polynomial elem);
+    // void inSumTable(Polynomial first, Polynomial second, Polynomial elem);
+    // void inMultiTable(Polynomial first, Polynomial second, Polynomial elem);
     Polynomial sum(Polynomial a, Polynomial b);
     Polynomial multi(Polynomial a, Polynomial b);
 };
