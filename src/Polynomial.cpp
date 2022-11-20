@@ -40,14 +40,6 @@ return false;
 }
 
 Polynomial operator* (Polynomial a, Polynomial b) {
-    // Monomial* arr = new Monomial[size_t(a.getSize()*b.getSize())];
-    // int y = 0;
-    // for (int i=0; i<a.getSize(); i++) {
-    //     for (int j=0; j<b.getSize();j++) {
-    //         arr[y++] = a.at(i)*b.at(j);
-    //     }
-    // }
-    // return Polynomial(arr, a.getSize()*b.getSize());
     std::map<int, int> m; // pow koef
     // int y = 0;
     for (int i=0; i<a.getSize(); i++) {
@@ -59,6 +51,7 @@ Polynomial operator* (Polynomial a, Polynomial b) {
                 m[pow] += koef;
             } else {
                 m.insert({a.at(i).getPow()+b.at(j).getPow(), a.at(i).getKoef()*b.at(j).getKoef()});
+
             }
         }
     }
@@ -75,16 +68,38 @@ Polynomial operator* (Polynomial a, Polynomial b) {
 
 
 
-// Polynomial operator+ (Polynomial a, Polynomial b) {
-    // Galois_field::Monomial* arr = new Galois_field::Monomial[a.getSize()*b.getSize()];
+Polynomial operator+ (Polynomial a, Polynomial b) {
+    std::map<int, int> m; // pow koef
     // int y = 0;
-    // for (int i=0; i<a.getSize(); i++) {
-    //     for (int j=0; j<b.getSize();j++) {
-    //         arr[y++] = a.at(i)*b.at(j);
-    //     }
-    // }
-    // return Galois_field::Polynomial(arr, a.getSize()*b.getSize());
-// }
+    for (int i=0; i<a.getSize(); i++) {
+        // m.insert({a.at(i).getPow(), a.at(i).getKoef()});
+        int pow = a.at(i).getPow();
+        int koef = a.at(i).getKoef();
+        if (m.contains(pow)) {
+                m[pow] += koef;
+            } else {
+                m.insert({pow, koef});
+            }
+    }
+    for (int j=0; j<b.getSize();j++) {
+        int pow = b.at(j).getPow();
+        int koef = b.at(j).getKoef();
+        if (m.contains(pow)) {
+                m[pow] += koef;
+            } else {
+                m.insert({pow, koef});
+            }
+    }
+    Monomial* arr = new Monomial[size_t(m.size())];
+    int q = 0;
+    for (const auto& [first, second]: m) {
+        Monomial{second, first};
+        arr[q].setPow(first);
+        arr[q++].setKoef(second);
+    }
+    // Monomial* arr = new Monomial[size_t()];
+    return Polynomial(arr, q);
+}
 
 
 // Polynomial operator- (Polynomial a, Polynomial b) {

@@ -49,5 +49,5 @@ class Polynomial { // Многочлен, по сути массив одноч�
 
 bool operator== (const Polynomial& a, const Polynomial& b);
 Polynomial operator* (Polynomial a, Polynomial b);
-// extern Polynomial operator+ (Polynomial a, Polynomial b);
+Polynomial operator+ (Polynomial a, Polynomial b);
 // extern Polynomial operator- (Polynomial a, Polynomial b);
