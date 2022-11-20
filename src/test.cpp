@@ -140,11 +140,15 @@ TEST_CASE("CHECK_POLYNOMIAL") {
     Polynomial a1{Monomial{5,2}, Monomial{1,1}};
     Polynomial a2{Monomial{3,3}, Monomial{1,2}};
     Polynomial a3{Monomial{15,5}, Monomial{8,4}, Monomial{1,3}};
+    Polynomial a4{Monomial{1,1}, Monomial{3,3}, Monomial{6,2}};
     REQUIRE(a1*a2 == a3);
+    REQUIRE(a1+a2 == a4);
     a1 = {Monomial{1,0}, Monomial{1,0}};
     a2 = {Monomial{1,0}, Monomial{1,0}};
     a3 = {Monomial{4,0}};
+    a4 = {Monomial{4,0}};
     REQUIRE(a1*a2 == a3);
+    REQUIRE(a1+a2 == a4);
 }
 
 TEST_CASE("CHECK_GALOIS_FIELD") {
