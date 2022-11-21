@@ -1,5 +1,6 @@
 #include "doctest.h"
 #include <string>
+#include <locale>
 #include "Affine_Cipher.hpp"
 #include "Counter.hpp"
 #include "Galois_field.hpp"
@@ -7,7 +8,18 @@
 #include "Polynomial.hpp"
 #include "Recurrent_Affine_Cipher.hpp"
 #include "Substitution_Cipher.hpp"
+#include "Translate.hpp"
 
+TEST_CASE("TRANSLATE") {
+    setlocale(LC_ALL, "ru-RUS");
+    // REQUIRE(translate("A", "eng") == 0);
+    // REQUIRE(translate("W", "eng") == 22);
+    std::string o = "кУКУШКА";
+    std::string q = "К";
+    REQUIRE(o.at(0) == q.at(0));
+    REQUIRE(translate("А", "rus") == 0);
+    REQUIRE(translate("Ц", "rus") == 23);
+}
 
 TEST_CASE("CHECK_COUNTER") {
     // Counter a(5,3); //0000
@@ -162,11 +174,17 @@ TEST_CASE("CHECK_POLYNOMIAL") {
 
 TEST_CASE("CHECK_GALOIS_FIELD") {
     // REQUIRE();
-    Galois_field a{2,2};
-    Counter c{2,2};
-    ++c;
-    ++c;
-    REQUIRE(a.group.at(2) == Polynomial(c));
+    int a1 = 15;
+    int b1 = 9;
+    Galois_field a{a1,b1};
+    Counter c{a1,b1};
+    for (int i =0; i<c.maxInc(); i++) {
+        REQUIRE(a.group.at(i) == Polynomial(c));
+        ++c;
+    }
+    Galois_field g{2,2};
+    Counter s{3,2};
+    REQUIRE(g.irrPolynomial == Polynomial{s+7});
 }
 
 TEST_CASE("CHECK_SUBSTIOTUTION_CIPHER") {
@@ -187,6 +205,8 @@ TEST_CASE("CHECK_SUBSTIOTUTION_CIPHER") {
 }
 
 TEST_CASE("CHECK_AFFINE_CIPHER") {
+    Galois_field g{2,2};
+
     // REQUIRE();
 }
 
