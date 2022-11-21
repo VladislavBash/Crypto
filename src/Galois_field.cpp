@@ -43,6 +43,7 @@ Polynomial fun(Polynomial c, int base) {
 Galois_field::Galois_field(int y, int x = 2): base(x), pow(y) { // base pow
     constructPole();
     constructGroup();
+    constructIrrPolynomial();
     constructMultiGroup();
     constructSumTable();
     constructMultiTable();
@@ -63,10 +64,26 @@ void Galois_field::constructGroup() {
     this->group.push_back(Polynomial{c});
 }
 
-// void Galois_field::constructIrrPolynomial() {
-//     Counter c{this->pow, this->base};
-//     c + 1;
-// }
+void Galois_field::constructIrrPolynomial() {
+    Counter c{this->pow, this->base};
+    Counter d{this->pow+1, this->base};
+    d = d + c.maxInc() ;
+    int cont = 0;
+    for (int i=0; i<=c.maxInc(); i++) {
+        ++d;
+        auto y = Polynomial{d};
+        for (auto x: this->pole) {
+            auto cac = y.calc(x, this->base);
+            if (y.calc(x, this->base) != 0)
+                cont++;
+        }
+        if (cont == this->base) {
+            this->irrPolynomial = y;
+            break;
+        }
+        cont = 0;
+    }
+}
 
 void Galois_field::constructMultiGroup() {
     this->multiGroup = this->group;

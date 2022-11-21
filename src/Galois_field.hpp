@@ -18,7 +18,7 @@ class  Galois_field { // Поле Галуа
     std::vector<std::vector<Polynomial>> multiTable;
     std::vector<Polynomial> revVector;
     public:
-    // Polynomial irrPolynomial{};
+    Polynomial irrPolynomial{Monomial{0,0}};
     std::vector<int> pole;
     std::vector<Polynomial> group;
     std::vector<Polynomial> multiGroup;
@@ -45,7 +45,7 @@ class  Galois_field { // Поле Галуа
     ~Galois_field() {}
     void constructPole();
     void constructGroup();
-    // void constructIrrPolynomial();
+    void constructIrrPolynomial();
     void constructMultiGroup();
     void constructSumTable();
     void constructMultiTable();
