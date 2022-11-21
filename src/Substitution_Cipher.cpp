@@ -2,13 +2,7 @@
 #include <string>
 #include <locale>
 #include "Substitution_Cipher.hpp"
-#include <algorithm>
-
-std::string toUpperCase(std::string str)
-{
-    std::transform(str.begin(), str.end(), str.begin(), ::toupper);
-    return str;
-}
+#include "toUpperCase.hpp"
 
 void Substitution_Cipher::setKeys(std::map<char, char> k) {
     this->key = k;

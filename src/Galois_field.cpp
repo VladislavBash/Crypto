@@ -7,7 +7,7 @@
 // int times(int x, int y) {
 //     int s = 0;
 //     for (int z=0; z<y-1; z++) {
-//         s += pow(x, z);
+//         s += power(x, z);
 //     }
 //     return (x-1)*s;
 // }
@@ -15,32 +15,55 @@ int rem(int x, int r) {
     while (x < 0) {
         x += r;
     }
-    return x;
+    return x % r;
 }
 
-Polynomial fun(Polynomial c, int base) {
+// Polynomial fun(Polynomial c, int base) {
+//     int s = c.getSize();
+//     for (int i =0; i<c.getSize(); i++) {
+//         auto q = c.at(i);
+//         auto r = rem(q.getKoef(), base);
+//         if (r == 0)
+//             s--;
+//         c.at(i).setKoef(r);
+//     }
+//     Monomial* lst = new Monomial[size_t(s)];
+//     int j = 0;
+//     for (int i=0; i<s; i++) {
+//         if (c.at(i).getKoef() == 0) {
+//         } else {
+//             lst[j].setKoef(c.at(i).getKoef());
+//             lst[j].setPow(c.at(i).getPow());
+//             j++;
+//         }
+//     }
+//     return Polynomial{lst, s};
+// }
+
+int Galois_field::getBase() const { return this->base; }
+
+Polynomial reduce(Polynomial c) {
     int s = c.getSize();
+    int j = 0;
+    Monomial* lst = new Monomial[size_t(s)];
     for (int i =0; i<c.getSize(); i++) {
         auto q = c.at(i);
-        auto r = rem(q.getKoef(), base);
-        if (r == 0)
+        auto r = rem(q.getKoef(), c.getBase());
+        if (r == 0) {
             s--;
-        q.setKoef(r);
-    }
-    Monomial* lst = new Monomial[size_t(s)];
-    int j = 0;
-    for (int i=0; i<s; i++) {
-        if (c.at(i).getKoef() == 0) {
         } else {
-            lst[j].setKoef(c.at(i).getKoef());
-            lst[j].setPow(c.at(i).getPow());
-            j++;
-        }
+            lst[j].setKoef(r);
+            lst[j++].setPow(q.getPow());
+        } // можно удалить "хвост"  у lst
     }
-    return Polynomial{lst, s};
+    Monomial* lst1 = new Monomial[size_t(j)];
+        for (int z=0; z<j; z++) {
+            lst1[z] = lst[z];
+        }
+    return Polynomial{lst1, s, c.getBase()};
 }
 
-Galois_field::Galois_field(int y, int x = 2): base(x), pow(y) { // base pow
+Galois_field::Galois_field(int y, int x = 2): base(x), power(y) { // base power
     constructPole();
     constructGroup();
     constructIrrPolynomial();
@@ -56,29 +79,29 @@ void Galois_field::constructPole() {
 }
 
 void Galois_field::constructGroup() {
-    Counter c{this->pow,this->base};
+    Counter c{this->power,this->base};
     for (int k=0; k<c.maxInc(); k++) {
-        this->group.push_back(Polynomial{c}); // 000 y = 3   0000 y = 4
+        this->group.push_back(Polynomial{c, this->base}); // 000 y = 3   0000 y = 4
         ++c;
     }
-    this->group.push_back(Polynomial{c});
+    this->group.push_back(Polynomial{c, this->base});
 }
 
 void Galois_field::constructIrrPolynomial() {
-    Counter c{this->pow, this->base};
-    Counter d{this->pow+1, this->base};
+    Counter c{this->power, this->base};
+    Counter d{this->power+1, this->base};
     d = d + c.maxInc() ;
     int cont = 0;
     for (int i=0; i<=c.maxInc(); i++) {
         ++d;
-        auto y = Polynomial{d};
+        auto y = Polynomial{d, this->base};
         for (auto x: this->pole) {
             auto cac = y.calc(x, this->base);
             if (y.calc(x, this->base) != 0)
                 cont++;
         }
         if (cont == this->base) {
-            this->irrPolynomial = y;
+            this->irrPolynomial = reduce(y);
             break;
         }
         cont = 0;
@@ -131,21 +154,21 @@ void Galois_field::constructMultiTable() {
     std::vector<Polynomial> v;
     int cont1 = 0;
     int cont2 = 0;
-    for (auto j: this->multiGroup) {
+    for (auto j: this->group) {
         // sumTable.push_back();
         // auto y = std::map<Polynomial, Polynomial> {j,j};
         // sumTable.insert({j, y});
         // sumTable.insert({j, std::map<Polynomial,Polynomial>()});
         // sumTable[j].insert(std::make_pair(j,j));
         // sumTable.insert(std::make_pair(j,std::map<Polynomial, Polynomial>(j,j)));
-        for (auto i: this->multiGroup) {
+        for (auto i: this->group) {
             if (cont1 < cont2) {
-                v.push_back(multiTable.at(i.getVal()-1).at(j.getVal()-1));
+                v.push_back(multiTable.at(i.getVal()).at(j.getVal()));
                 cont1++;
             } else {
                 auto y = multi(j, i);
                 v.push_back(y);
-                if (y == Polynomial{Monomial{1,0}})
+                if (y == Polynomial{{Monomial{1,0}}, this->base})
                     this->revVector.push_back(y);
             }
             // sumTable[j] = {i, i};
@@ -155,6 +178,7 @@ void Galois_field::constructMultiTable() {
         }
         multiTable.push_back(v);
         v.clear();
+        cont1 = 0;
         cont2++;
     }
 }
@@ -175,6 +199,9 @@ Polynomial Galois_field::atMultiTable(Polynomial first, Polynomial second) {
     return multiTable.at(first.getVal()).at(second.getVal());
 }
 
+Polynomial Galois_field::atRevVector(Polynomial first) {
+    return this->revVector.at(first.getVal());
+}
 // void Galois_field::inSumTable(Polynomial first, Polynomial second, Polynomial elem) {
 //     // auto &a = this->sumTable.at(first);
 //     // a.insert({second, elem});
@@ -210,12 +237,46 @@ Polynomial Galois_field::sum(Polynomial a, Polynomial b) {
     //     }
     // }
     // return Polynomial{lst, s};
-    return fun(c, this->base);
+    return reduce(c);
 }
 
 Polynomial Galois_field::multi(Polynomial a, Polynomial b) {
     Polynomial c = a * b;
-    return fun(c, this->base);
+    c = reduce(c);
+    if (c.getVal() == pow(this->base, this->power)) {
+        int s = 0;
+        Monomial* lst = new Monomial[this->irrPolynomial.getSize()-1];
+        for (int j=0; j<this->irrPolynomial.getSize()-1; j++) {
+            auto aa1 = (-1)*this->irrPolynomial.at(j).getKoef();
+            auto bb1 = this->irrPolynomial.at(j).getPow();
+            // lst[s].setKoef((-1)*c.at(j).getKoef());
+            // lst[s].setKoef(c.at(j).getPow());
+            lst[s].setKoef(aa1);
+            lst[s].setPow(bb1);
+            s++;
+        }
+        c = Polynomial{lst, s, this->base};
+        auto mem = reduce(c);
+        this->xpows.push_back(mem);
+        return mem;
+    }
+    if (c.getVal() > pow(this->base, this->power)) {
+        // c = ;
+        Polynomial d{{Monomial{0,0}}, this->base};
+        Polynomial a{{Monomial{0,0}}, this->base};
+        Polynomial z{{Monomial{0,0}}, this->base};
+        for (int i=0; i<c.getSize(); i++) {
+            if (c.at(i).getPow() >= this->base) {
+                z = this->xpows.at(c.at(i).getPow()-this->base);
+            } else {
+                z = Polynomial{{Monomial{1,c.at(i).getPow()}}, this->base};
+            }
+            a = Polynomial{{Monomial{c.at(i).getKoef(), 0}}, this->base} * z;
+            d = d + a;
+        }
+        return reduce(d);
+    }
+    return c;
 }
 // Galois_field::Galois_field(int y, int x = 2) {
 //     for (int i=0; i<x; i++) {

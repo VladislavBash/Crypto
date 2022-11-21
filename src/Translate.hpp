@@ -1,21 +1,7 @@
 #include <string>
 #include <map>
-std::map<std::string, int> chooseMap(std::string lang) {
-    std::map<std::string, int> m;
-    if (lang == "rus") {
-        m = {{"А",0}, {"Б",1}, {"В",2}, {"Г",3}, {"Д",4}, {"Е",5}, {"Ё",6}, {"Ж",7}, {"З",8}, {"И",9}, {"Й",10},
-         {"К",11}, {"Л",12}, {"М",13}, {"Н",14}, {"О",15}, {"П",16}, {"Р",17}, {"С",18}, {"Т",19}, {"У",20}, {"Ф",21}, {"Х",22}, {"Ц",23}, {"Ч",24},
-          {"Ш",25}, {"Щ",26}, {"Ы",27}, {"Ъ",28}, {"Ь",29}, {"Э",30}, {"Ю",31}, {"Я",32}};
-    }
-    if (lang == "eng") {
-        m = {{"A",0}, {"B",1}, {"C",2}, {"D",3}, {"E",4}, {"F",5}, {"G",6}, {"H",7}, {"I",8}, {"J",9},
-        {"K",10}, {"L",11}, {"M",12}, {"N",13}, {"O",14}, {"P",15}, {"Q",16}, {"R",17}, {"S",18}, {"T",19},
-        {"U",20}, {"V",21}, {"W",22}, {"X",23}, {"Y",24}, {"Z",25}};
-    }
-    return m;
-}
 
-int translate(std::string a, std::string lang) {
-    static std::map<std::string, int> m = chooseMap(lang);
-    return m.at(a);
-}
+extern std::map<std::string, int> chooseMap(std::string lang);
+extern int translate(std::string a, std::string lang);
+extern std::map<int, std::string> chooseUnMap(std::string lang);
+extern std::string untranslate(int a, std::string lang);

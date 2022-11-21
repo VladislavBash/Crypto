@@ -26,17 +26,19 @@ void Polynomial::sort() { // increase-sort
     }
 }
 
-int Polynomial::getVal() {
+int Polynomial::getVal() const {
     int v = 0;
     int k = 0;
     int p = 0;
     for (int i =0; i<this->size; i++) {
         k = this->at(i).getKoef();
         p = this->at(i).getPow();
-        v += int(k*pow(2,p));
+        v += int(k*pow(this->base,p));
     }
     return v;
 }
+
+int Polynomial::getBase() const { return this->base; }
 
 int Polynomial::calc(int x, int base) {
     int y = 0;
@@ -83,7 +85,7 @@ Polynomial operator* (Polynomial a, Polynomial b) {
         arr[q++].setKoef(second);
     }
     // Monomial* arr = new Monomial[size_t()];
-    return Polynomial(arr, q);
+    return Polynomial(arr, q, a.getBase());
 }
 
 
@@ -118,7 +120,7 @@ Polynomial operator+ (Polynomial a, Polynomial b) {
         arr[q++].setKoef(second);
     }
     // Monomial* arr = new Monomial[size_t()];
-    return Polynomial(arr, q);
+    return Polynomial(arr, q, a.getBase());
 }
 
 

@@ -127,17 +127,49 @@ TEST_CASE("CHECK_MONOMIAL") {
     REQUIRE(a*b == Monomial{k*k, p+p});
 }
 
+TEST_CASE("CHECK_NEW_POLYNOMIAL") {
+    int base = 2;
+    Monomial* lst = new Monomial[2];
+    lst[0].setKoef(-1);
+    lst[0].setPow(0);
+    lst[1].setKoef(-1);
+    lst[1].setPow(1);
+    auto a = Polynomial{lst, 2, base};
+    REQUIRE(a.at(0).getKoef() == -1);
+    REQUIRE(a.at(0).getPow() == 0);
+    REQUIRE(a.at(1).getKoef() == -1);
+    REQUIRE(a.at(1).getPow() == 1);
+    Monomial* lt = new Monomial[2];
+    lt[0].setKoef(-1);
+    lt[0].setPow(1);
+    lt[1].setKoef(-1);
+    lt[1].setPow(0);
+    auto b = Polynomial{lt, 2, base};
+    REQUIRE(b.at(0).getKoef() == -1);
+    REQUIRE(b.at(0).getPow() == 0);
+    REQUIRE(b.at(1).getKoef() == -1);
+    REQUIRE(b.at(1).getPow() == 1);
+    auto c = a * b;
+    REQUIRE(c.at(0).getKoef() == 1);
+    REQUIRE(c.at(0).getPow() == 0);
+    REQUIRE(c.at(1).getKoef() == 2);
+    REQUIRE(c.at(1).getPow() == 1);
+    REQUIRE(c.at(2).getKoef() == 1);
+    REQUIRE(c.at(2).getPow() == 2);
+}
+
 TEST_CASE("CHECK_POLYNOMIAL") {
     // REQUIRE();
+    int base = 8;
     Counter lst(2,2);
     ++lst;
     ++lst;
     ++lst;
-    Polynomial a{lst};
-    Polynomial d{Monomial(1,0), Monomial(1,1)};
-    Polynomial b{Monomial(0,0), Monomial(0,1), Monomial(1,0), Monomial(1,1)};
+    Polynomial a{lst, base};
+    Polynomial d{{Monomial(1,0), Monomial(1,1)}, base};
+    Polynomial b{{Monomial(0,0), Monomial(0,1), Monomial(1,0), Monomial(1,1)}, base};
     Monomial* lt = new Monomial[4] {Monomial(0,0), Monomial(0,1), Monomial(1,0), Monomial(1,1)};
-    Polynomial c{lt,4};
+    Polynomial c{lt, 4, base};
     // delete lt;
     REQUIRE(a == d);
     REQUIRE(b.at(0).getKoef() == 0);
@@ -158,33 +190,42 @@ TEST_CASE("CHECK_POLYNOMIAL") {
     REQUIRE(c.at(3).getPow() == 1);
     REQUIRE(b == c);
 
-    Polynomial a1{Monomial{5,2}, Monomial{1,1}};
-    Polynomial a2{Monomial{3,3}, Monomial{1,2}};
-    Polynomial a3{Monomial{15,5}, Monomial{8,4}, Monomial{1,3}};
-    Polynomial a4{Monomial{1,1}, Monomial{3,3}, Monomial{6,2}};
+    Polynomial a1{{Monomial{5,2}, Monomial{1,1}}, base};
+    Polynomial a2{{Monomial{3,3}, Monomial{1,2}}, base};
+    Polynomial a3{{Monomial{15,5}, Monomial{8,4}, Monomial{1,3}}, base};
+    Polynomial a4{{Monomial{1,1}, Monomial{3,3}, Monomial{6,2}}, base};
     REQUIRE(a1*a2 == a3);
     REQUIRE(a1+a2 == a4);
-    a1 = {Monomial{1,0}, Monomial{1,0}};
-    a2 = {Monomial{1,0}, Monomial{1,0}};
-    a3 = {Monomial{4,0}};
-    a4 = {Monomial{4,0}};
+    a1 = {{Monomial{1,0}, Monomial{1,0}}, base};
+    a2 = {{Monomial{1,0}, Monomial{1,0}}, base};
+    a3 = {{Monomial{4,0}}, base};
+    a4 = {{Monomial{4,0}}, base};
     REQUIRE(a1*a2 == a3);
     REQUIRE(a1+a2 == a4);
 }
 
+TEST_CASE("CHECK_NEW_GALOIS_FIELD") {
+    int base = 3;
+    Galois_field g{3,3};
+    auto a1 = Polynomial{{Monomial{1,1}}, base};
+    auto a2 = Polynomial{{Monomial{1,2}}, base};
+    REQUIRE(g.atMultiTable(a1, a2) == Polynomial{{Monomial{1,1}, Monomial{2,0}}, base});
+}
+
 TEST_CASE("CHECK_GALOIS_FIELD") {
     // REQUIRE();
+    int base = 2;
     int a1 = 15;
     int b1 = 9;
     Galois_field a{a1,b1};
     Counter c{a1,b1};
     for (int i =0; i<c.maxInc(); i++) {
-        REQUIRE(a.group.at(i) == Polynomial(c));
+        REQUIRE(a.group.at(i) == Polynomial(c, base));
         ++c;
     }
     Galois_field g{2,2};
     Counter s{3,2};
-    REQUIRE(g.irrPolynomial == Polynomial{s+7});
+    REQUIRE(g.irrPolynomial == Polynomial{s+7, base});
 }
 
 TEST_CASE("CHECK_SUBSTIOTUTION_CIPHER") {
@@ -205,9 +246,12 @@ TEST_CASE("CHECK_SUBSTIOTUTION_CIPHER") {
 }
 
 TEST_CASE("CHECK_AFFINE_CIPHER") {
-    Galois_field g{2,2};
-
     // REQUIRE();
+    auto optext = "AABCDC";
+    auto a = 1;
+    auto b = 1;
+    auto cltext = Affine_Cipher::Encrypt(optext, a, b, "eng"); // РАБОТАЕТ!!!!!
+    REQUIRE(optext == Affine_Cipher::Decrypt(cltext, a, b, "eng"));
 }
 
 TEST_CASE("CHECK_RECCURENT_AFFINE_CIPHER") {

@@ -6,6 +6,7 @@ class Polynomial { // Многочлен, по сути массив одноч�
     private:
     int size = 0;
     int val = 0;
+    int base = 2;
     Monomial* elem = nullptr;
     public:
     // Polynomial(int lst): size(getSizeInt(lst)), elem(new Monomial[size]) { // Создаем 
@@ -20,7 +21,7 @@ class Polynomial { // Многочлен, по сути массив одноч�
     //     }
     //     std::copy(a.begin(), a.end(), elem);
     // }
-    Polynomial(Counter& lst): size(lst.getSize()) {
+    Polynomial(Counter& lst, int b): size(lst.getSize()), base(b) {
         this->elem = new Monomial[static_cast<unsigned long long>(lst.getSize())];
         int kof = 0;
         int pw = 0;
@@ -32,12 +33,12 @@ class Polynomial { // Многочлен, по сути массив одноч�
         }
         val = this->getVal();
     }
-    Polynomial(std::initializer_list<Monomial> lst): size(static_cast<int>(lst.size())), elem(new Monomial[static_cast<unsigned long long>(size)])  {
+    Polynomial(std::initializer_list<Monomial> lst, int b): size(static_cast<int>(lst.size())), elem(new Monomial[static_cast<unsigned long long>(size)]), base(b)  {
         std::copy(lst.begin(), lst.end(), elem);
         this->sort();
         val = this->getVal();
     }
-    Polynomial(Monomial*& lst, int s): size(s), elem(lst) {
+    Polynomial(Monomial*& lst, int s, int b): size(s), elem(lst), base(b) {
         this->sort();
         val = this->getVal();
     }
@@ -51,7 +52,8 @@ class Polynomial { // Многочлен, по сути массив одноч�
     int getSize() const;
     Monomial at(int num) const;
     void sort();
-    int getVal();
+    int getVal() const;
+    int getBase() const;
     int calc(int x, int base);
 };
 
