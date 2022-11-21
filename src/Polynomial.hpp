@@ -52,6 +52,7 @@ class Polynomial { // Многочлен, по сути массив одноч�
     Monomial at(int num) const;
     void sort();
     int getVal();
+    int calc(int x, int base);
 };
 
 bool operator== (const Polynomial& a, const Polynomial& b);

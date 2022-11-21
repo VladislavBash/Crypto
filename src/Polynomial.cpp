@@ -38,6 +38,14 @@ int Polynomial::getVal() {
     return v;
 }
 
+int Polynomial::calc(int x, int base) {
+    int y = 0;
+    for (int i=0; i<this->size; i++) {
+        y += this->at(i).calc(x, base);
+    }
+    return y % base;
+}
+
 bool operator== (const Polynomial& a, const Polynomial& b) {
 if (a.getSize() != b.getSize())
     return false;

@@ -2,9 +2,13 @@
 #include "Monomial.hpp"
 
 int Monomial::getKoef() { return this->koef; }
-int Monomial::getPow() { return this->pow; }
+int Monomial::getPow() { return this->power; }
 void Monomial::setKoef(int x) { this->koef=x; }
-void Monomial::setPow(int x) { this->pow=x;}
+void Monomial::setPow(int x) { this->power=x;}
+int Monomial::calc(int x, int base) {
+    return (this->getKoef() * int(pow(x, this->power))) % base;
+}
+
 bool operator== (Monomial a, Monomial b) {
     if (a.getKoef() == b.getKoef() && a.getPow() == b.getPow())
         return true;
