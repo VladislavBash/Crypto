@@ -17,11 +17,6 @@ std::map<std::string, int> chooseMap(std::string lang) {
     return m;
 }
 
-int translate(std::string a, std::string lang) {
-    static std::map<std::string, int> m = chooseMap(lang);
-    return m.at(a);
-}
-
 std::map<int, std::string> chooseUnMap(std::string lang) {
     std::map<int, std::string> m;
     if (lang == "rus") {
@@ -35,6 +30,11 @@ std::map<int, std::string> chooseUnMap(std::string lang) {
         {20,"U"}, {21,"V"}, {22,"W"}, {23,"X"}, {24,"Y"}, {25,"Z"}};
     }
     return m;
+}
+
+int translate(std::string a, std::string lang) {
+    static std::map<std::string, int> m = chooseMap(lang);
+    return m.at(a);
 }
 
 std::string untranslate(int a, std::string lang) {
