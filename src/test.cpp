@@ -254,8 +254,8 @@ TEST_CASE("CHECK_SUBSTIOTUTION_CIPHER") {
 TEST_CASE("CHECK_AFFINE_CIPHER") {
     // REQUIRE();
     std::string optext = "AABCDC";
-    int a = 5;
-    int b = 5;
+    int a = 9;
+    int b = 25;
     std::string cltext = Affine_Cipher::Encrypt(optext, a, b, "eng"); // РАБОТАЕТ!!!!!
     std::string test = Affine_Cipher::Decrypt(cltext, a, b, "eng");
     REQUIRE(optext == test);
