@@ -68,6 +68,7 @@ Galois_field::Galois_field(int y, int x = 2): base(y), power(x) { // base power
     constructGroup();
     constructIrrPolynomial();
     constructMultiGroup();
+    this->revVector = std::vector<Polynomial>((this->multiGroup.size()), Polynomial{{Monomial{0,0}},this->base});
     constructSumTable();
     constructMultiTable();
 }
@@ -203,7 +204,7 @@ Polynomial Galois_field::atMultiTable(Polynomial first, Polynomial second) {
 }
 
 Polynomial Galois_field::atRevVector(Polynomial first) {
-    return this->revVector.at(first.getVal()-1);
+    return this->revVector.at(first.getVal()-2);
 }
 // void Galois_field::inSumTable(Polynomial first, Polynomial second, Polynomial elem) {
 //     // auto &a = this->sumTable.at(first);
@@ -245,8 +246,11 @@ Polynomial Galois_field::sum(Polynomial a, Polynomial b) {
 
 Polynomial Galois_field::multi(Polynomial a, Polynomial b) {
     Polynomial c = a * b;
-    if (reduce(c) == Polynomial{{Monomial{1,0}}, this->base})
-                    this->revVector.push_back(b);
+    if (reduce(c) == Polynomial{{Monomial{1,0}}, this->base}) {
+        // this->revVector.push_back(b);
+        this->revVector[b.getVal()-1] = a;
+        this->revVector[a.getVal()-1] = b;
+    }
     c = reduce(c);
     if (c.getSize() == 1 && c.at(0).getPow() >= this->power && this->xpows.size() == (c.at(0).getPow()-this->power+1) && c.at(0).getKoef() == 1) {
         return this->xpows.at(c.at(0).getPow()-this->power);
@@ -297,8 +301,12 @@ Polynomial Galois_field::multi(Polynomial a, Polynomial b) {
         // if (reduce(d) == Polynomial{{Monomial{1,0}}, this->base} && a.getVal()-1 == this->revVector.size()) {
         //     this->revVector.push_back(a);
         // }
+        // if (reduce(d) == Polynomial{{Monomial{1,0}}, this->base})
+        //             this->revVector.push_back(b);
         if (reduce(d) == Polynomial{{Monomial{1,0}}, this->base})
-                    this->revVector.push_back(b);
+            this->revVector[b.getVal()-1] = a;
+        if (reduce(d) == Polynomial{{Monomial{1,0}}, this->base})
+            this->revVector[a.getVal()-1] = b;
         return reduce(d);
     }
     return c;

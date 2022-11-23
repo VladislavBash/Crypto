@@ -16,6 +16,7 @@ class  Galois_field { // Поле Галуа
     int power = 0;
     std::vector<std::vector<Polynomial>> sumTable;
     std::vector<std::vector<Polynomial>> multiTable;
+    // std::vector<Polynomial> revVector;
     std::vector<Polynomial> revVector;
     public:
     Polynomial irrPolynomial{{Monomial{0,0}}, this->base};
