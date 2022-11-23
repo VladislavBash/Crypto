@@ -39,7 +39,7 @@
         //     this->clText += x; // y переводим из многочлена в букву
         // }
         if (a == 0) { throw std::invalid_argument("a is 0"); }
-        a--;
+        // a--;
         Galois_field g{3,3};
         Polynomial g_ra = g.atRevVector(g.multiGroup.at(a));
         Polynomial g_b = g.group.at(b);

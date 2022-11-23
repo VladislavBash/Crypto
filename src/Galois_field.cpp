@@ -246,7 +246,7 @@ Polynomial Galois_field::sum(Polynomial a, Polynomial b) {
 Polynomial Galois_field::multi(Polynomial a, Polynomial b) {
     Polynomial c = a * b;
     if (reduce(c) == Polynomial{{Monomial{1,0}}, this->base})
-                    this->revVector.push_back(a);
+                    this->revVector.push_back(b);
     c = reduce(c);
     if (c.getSize() == 1 && c.at(0).getPow() >= this->power && this->xpows.size() == (c.at(0).getPow()-this->power+1) && c.at(0).getKoef() == 1) {
         return this->xpows.at(c.at(0).getPow()-this->power);
@@ -289,14 +289,16 @@ Polynomial Galois_field::multi(Polynomial a, Polynomial b) {
             f = Polynomial{{Monomial{c.at(i).getKoef(), 0}}, this->base} * z;
             d = d + f;
         }
-        auto test = reduce(d);
-        bool b1 = reduce(d) == Polynomial{{Monomial{1,0}}, this->base};
-        int test1 = a.getVal()-1;
-        int test2 = this->revVector.size();
-        bool b2 = test1 == test2;
-        if (reduce(d) == Polynomial{{Monomial{1,0}}, this->base} && a.getVal()-1 == this->revVector.size()) {
-            this->revVector.push_back(a);
-        }
+        // auto test = reduce(d);
+        // bool b1 = reduce(d) == Polynomial{{Monomial{1,0}}, this->base};
+        // int test1 = a.getVal()-1;
+        // int test2 = this->revVector.size();
+        // bool b2 = test1 == test2;
+        // if (reduce(d) == Polynomial{{Monomial{1,0}}, this->base} && a.getVal()-1 == this->revVector.size()) {
+        //     this->revVector.push_back(a);
+        // }
+        if (reduce(d) == Polynomial{{Monomial{1,0}}, this->base})
+                    this->revVector.push_back(b);
         return reduce(d);
     }
     return c;
