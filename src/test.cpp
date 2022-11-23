@@ -1,6 +1,7 @@
 #include "doctest.h"
 #include <string>
 #include <locale>
+#include <bitset>
 #include "Affine_Cipher.hpp"
 #include "Counter.hpp"
 #include "Galois_field.hpp"
@@ -18,7 +19,7 @@ TEST_CASE("TRANSLATE") {
     std::string q = "К";
     REQUIRE(o.at(0) == q.at(0));
     REQUIRE(translate("А", "rus") == 0);
-    REQUIRE(translate("Ц", "rus") == 23);
+    REQUIRE(translate("Ц", "rus") == 21);
 }
 
 TEST_CASE("CHECK_COUNTER") {
@@ -253,7 +254,8 @@ TEST_CASE("CHECK_SUBSTIOTUTION_CIPHER") {
 
 TEST_CASE("CHECK_AFFINE_CIPHER") {
     // REQUIRE();
-    std::string optext = "AABCDC";
+    // std::string optext = "AABCDC";
+    std::string optext = "ABCDEFGHIJKLMNOPQRSTUVWXYZ";
     int a = 9;
     int b = 25;
     std::string cltext = Affine_Cipher::Encrypt(optext, a, b, "eng"); // РАБОТАЕТ!!!!!
@@ -263,7 +265,8 @@ TEST_CASE("CHECK_AFFINE_CIPHER") {
 
 TEST_CASE("CHECK_RECCURENT_AFFINE_CIPHER") {
     // REQUIRE();
-    std::string optext = "AABCDC";
+    // std::string optext = "AABCDC";
+    std::string optext = "ABCDEFGHIJKLMNOPQRSTUVWXYZ";
     int a1 = 2;
     int a2 = 3;
     int b1 = 4;
@@ -271,4 +274,51 @@ TEST_CASE("CHECK_RECCURENT_AFFINE_CIPHER") {
     std::string cltext = Recurrent_Affine_Cipher::Encrypt(optext, a1, a2, b1, b2, "eng"); // РАБОТАЕТ!!!!!
     std::string test = Recurrent_Affine_Cipher::Decrypt(cltext, a1, a2, b1, b2, "eng");
     REQUIRE(optext == test);
+}
+
+std::string TextToBinaryString(std::string words) {
+    std::string binaryString = "";
+    for (const char& _char : words) {
+        binaryString +=std::bitset<8>(_char).to_string();
+    }
+    return binaryString;
+}
+
+TEST_CASE("STR_AS_BITSET") {
+    std::string optext = "HELLO";
+    REQUIRE(TextToBinaryString(optext) == "0100100001000101010011000100110001001111");
+    REQUIRE(TextToBinaryString(optext.substr(0,1)) == "01001000");
+    REQUIRE(TextToBinaryString(optext.substr(1,1)) == "01000101");
+    REQUIRE(TextToBinaryString(optext.substr(2,1)) == "01001100");
+    REQUIRE(TextToBinaryString(optext.substr(3,1)) == "01001100");
+    REQUIRE(TextToBinaryString(optext.substr(4,1)) == "01001111");
+}
+
+TEST_CASE("STR_AS_BITSET") {
+    std::string optext = "HELLO";
+    std::string binoptext = TextToBinaryString(optext);
+    SUBCASE("STR_AS_BITSET") {
+        REQUIRE(binoptext == "0100100001000101010011000100110001001111");
+        REQUIRE(TextToBinaryString(optext.substr(0,1)) == "01001000");
+        REQUIRE(TextToBinaryString(optext.substr(1,1)) == "01000101");
+        REQUIRE(TextToBinaryString(optext.substr(2,1)) == "01001100");
+        REQUIRE(TextToBinaryString(optext.substr(3,1)) == "01001100");
+        REQUIRE(TextToBinaryString(optext.substr(4,1)) == "01001111");
+    }
+    SUBCASE("AFFINE_CIPHER") {
+        int a = 9;
+        int b = 25;
+        std::string cltext = Affine_Cipher::Encrypt(binoptext, a, b, "eng"); // РАБОТАЕТ!!!!!
+        std::string test = Affine_Cipher::Decrypt(cltext, a, b, "eng");
+        REQUIRE(optext == test);
+    }
+    SUBCASE("RECCURENT_AFFINE_CIPHER") {
+        int a1 = 2;
+        int a2 = 3;
+        int b1 = 4;
+        int b2 = 6;
+        std::string cltext = Recurrent_Affine_Cipher::Encrypt(binoptext, a1, a2, b1, b2, "eng"); // РАБОТАЕТ!!!!!
+        std::string test = Recurrent_Affine_Cipher::Decrypt(cltext, a1, a2, b1, b2, "eng");
+        REQUIRE(optext == test);
+    }
 }
