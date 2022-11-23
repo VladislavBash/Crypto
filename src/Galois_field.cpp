@@ -63,7 +63,7 @@ Polynomial reduce(Polynomial c) {
     return Polynomial{lst1, s, c.getBase()};
 }
 
-Galois_field::Galois_field(int y, int x = 2): base(x), power(y) { // base power
+Galois_field::Galois_field(int y, int x = 2): base(y), power(x) { // base power
     constructPole();
     constructGroup();
     constructIrrPolynomial();
@@ -166,6 +166,9 @@ void Galois_field::constructMultiTable() {
                 v.push_back(multiTable.at(i.getVal()).at(j.getVal()));
                 cont1++;
             } else {
+                if (i.getVal() == 128) {
+
+                }
                 auto y = multi(j, i);
                 v.push_back(y);
                 if (y == Polynomial{{Monomial{1,0}}, this->base})
@@ -243,6 +246,9 @@ Polynomial Galois_field::sum(Polynomial a, Polynomial b) {
 Polynomial Galois_field::multi(Polynomial a, Polynomial b) {
     Polynomial c = a * b;
     c = reduce(c);
+    if (c.getSize() == 1 && c.at(0).getPow() >= this->power && this->xpows.size() == (c.at(0).getPow()-this->power+1)) {
+        return this->xpows.at(c.at(0).getPow()-this->power);
+    }
     if (c.getVal() == pow(this->base, this->power)) {
         int s = 0;
         Monomial* lst = new Monomial[this->irrPolynomial.getSize()-1];
@@ -260,14 +266,21 @@ Polynomial Galois_field::multi(Polynomial a, Polynomial b) {
         this->xpows.push_back(mem);
         return mem;
     }
+    if (c.getVal() >= pow(this->base, this->power) && c.getSize() == 1) {
+        Polynomial mem = this->xpows.at(c.at(0).getPow()-this->power-1);
+        mem = mem * Polynomial{{Monomial{1,1}}, this->base};
+        this->xpows.push_back(mem);
+        return mem;
+    }
     if (c.getVal() > pow(this->base, this->power)) {
         // c = ;
         Polynomial d{{Monomial{0,0}}, this->base};
         Polynomial a{{Monomial{0,0}}, this->base};
         Polynomial z{{Monomial{0,0}}, this->base};
         for (int i=0; i<c.getSize(); i++) {
-            if (c.at(i).getPow() >= this->base) {
-                z = this->xpows.at(c.at(i).getPow()-this->base);
+            if (c.at(i).getPow() >= this->power) {
+                z = this->xpows.at(c.at(i).getPow()-this->power);
+                // this->xpows.push_back(z);
             } else {
                 z = Polynomial{{Monomial{1,c.at(i).getPow()}}, this->base};
             }

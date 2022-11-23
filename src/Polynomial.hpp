@@ -6,7 +6,7 @@ class Polynomial { // Многочлен, по сути массив одноч�
     private:
     int size = 0;
     int val = 0;
-    int base = 2;
+    int base = 1;
     Monomial* elem = nullptr;
     public:
     // Polynomial(int lst): size(getSizeInt(lst)), elem(new Monomial[size]) { // Создаем 

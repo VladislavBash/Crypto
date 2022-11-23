@@ -205,11 +205,17 @@ TEST_CASE("CHECK_POLYNOMIAL") {
 }
 
 TEST_CASE("CHECK_NEW_GALOIS_FIELD") {
-    int base = 3;
-    Galois_field g{3,3};
-    auto a1 = Polynomial{{Monomial{1,1}}, base};
-    auto a2 = Polynomial{{Monomial{1,2}}, base};
-    REQUIRE(g.atMultiTable(a1, a2) == Polynomial{{Monomial{1,1}, Monomial{2,0}}, base});
+    int base = 2;
+    Galois_field g{base, base+6};
+    // REQUIRE(g.atMultiTable(Polynomial{{Monomial{1,8}, Monomial{1,0}}, base}, Polynomial{{Monomial{1,1}},base}) == Polynomial{{Monomial{1,0}},base});
+    auto i = g.atSumTable(Polynomial{{Monomial{1,7}, Monomial{1,4}, Monomial{1,3}, Monomial{1,0}},base}, Polynomial{{Monomial{1,7}, Monomial{1,6}, Monomial{1,4}, Monomial{1,2}}, base});
+    // auto i = g.atSumTable(Polynomial{{Monomial{1,7}, Monomial{1,6}, Monomial{1,4}, Monomial{1,2}}, base}, Polynomial{{Monomial{1,7}, Monomial{1,4}, Monomial{1,3}, Monomial{1,0}},base});
+    // REQUIRE(i == Polynomial{{Monomial{1,6}, Monomial{1,3}, Monomial{1,2}, Monomial{1,0}},base});
+    // auto y = g.atMultiTable(Polynomial{{Monomial{1,3}, Monomial{1,1}, Monomial{1,0}}, base}, Polynomial{{Monomial{1,2}, Monomial{1,0}},base});
+    // REQUIRE(y == Polynomial{{Monomial{1,5}, Monomial{1,2}, Monomial{1,1}, Monomial{1,0}},base});
+    // auto a1 = Polynomial{{Monomial{1,1}}, base};
+    // auto a2 = Polynomial{{Monomial{1,2}}, base};
+    // REQUIRE(g.atMultiTable(a1, a2) == Polynomial{{Monomial{1,1}, Monomial{2,0}}, base});
 }
 
 TEST_CASE("CHECK_GALOIS_FIELD") {
