@@ -166,13 +166,13 @@ void Galois_field::constructMultiTable() {
                 v.push_back(multiTable.at(i.getVal()).at(j.getVal()));
                 cont1++;
             } else {
-                if (i.getVal() == 128) {
+                if (i.getVal() == 18) {
 
                 }
                 auto y = multi(j, i);
                 v.push_back(y);
-                if (y == Polynomial{{Monomial{1,0}}, this->base})
-                    this->revVector.push_back(y);
+                // if (y == Polynomial{{Monomial{1,0}}, this->base})
+                //     this->revVector.push_back(y);
             }
             // sumTable[j] = {i, i};
             // sumTable[j].insert(std::make_pair(i,i));
@@ -203,7 +203,7 @@ Polynomial Galois_field::atMultiTable(Polynomial first, Polynomial second) {
 }
 
 Polynomial Galois_field::atRevVector(Polynomial first) {
-    return this->revVector.at(first.getVal());
+    return this->revVector.at(first.getVal()-1);
 }
 // void Galois_field::inSumTable(Polynomial first, Polynomial second, Polynomial elem) {
 //     // auto &a = this->sumTable.at(first);
@@ -245,8 +245,10 @@ Polynomial Galois_field::sum(Polynomial a, Polynomial b) {
 
 Polynomial Galois_field::multi(Polynomial a, Polynomial b) {
     Polynomial c = a * b;
+    if (reduce(c) == Polynomial{{Monomial{1,0}}, this->base})
+                    this->revVector.push_back(a);
     c = reduce(c);
-    if (c.getSize() == 1 && c.at(0).getPow() >= this->power && this->xpows.size() == (c.at(0).getPow()-this->power+1)) {
+    if (c.getSize() == 1 && c.at(0).getPow() >= this->power && this->xpows.size() == (c.at(0).getPow()-this->power+1) && c.at(0).getKoef() == 1) {
         return this->xpows.at(c.at(0).getPow()-this->power);
     }
     if (c.getVal() == pow(this->base, this->power)) {
@@ -266,7 +268,7 @@ Polynomial Galois_field::multi(Polynomial a, Polynomial b) {
         this->xpows.push_back(mem);
         return mem;
     }
-    if (c.getVal() >= pow(this->base, this->power) && c.getSize() == 1) {
+    if (c.getVal() >= pow(this->base, this->power) && c.getSize() == 1  && c.at(0).getKoef() == 1) {
         Polynomial mem = this->xpows.at(c.at(0).getPow()-this->power-1);
         mem = mem * Polynomial{{Monomial{1,1}}, this->base};
         this->xpows.push_back(mem);
@@ -275,7 +277,7 @@ Polynomial Galois_field::multi(Polynomial a, Polynomial b) {
     if (c.getVal() > pow(this->base, this->power)) {
         // c = ;
         Polynomial d{{Monomial{0,0}}, this->base};
-        Polynomial a{{Monomial{0,0}}, this->base};
+        Polynomial f{{Monomial{0,0}}, this->base};
         Polynomial z{{Monomial{0,0}}, this->base};
         for (int i=0; i<c.getSize(); i++) {
             if (c.at(i).getPow() >= this->power) {
@@ -284,8 +286,16 @@ Polynomial Galois_field::multi(Polynomial a, Polynomial b) {
             } else {
                 z = Polynomial{{Monomial{1,c.at(i).getPow()}}, this->base};
             }
-            a = Polynomial{{Monomial{c.at(i).getKoef(), 0}}, this->base} * z;
-            d = d + a;
+            f = Polynomial{{Monomial{c.at(i).getKoef(), 0}}, this->base} * z;
+            d = d + f;
+        }
+        auto test = reduce(d);
+        bool b1 = reduce(d) == Polynomial{{Monomial{1,0}}, this->base};
+        int test1 = a.getVal()-1;
+        int test2 = this->revVector.size();
+        bool b2 = test1 == test2;
+        if (reduce(d) == Polynomial{{Monomial{1,0}}, this->base} && a.getVal()-1 == this->revVector.size()) {
+            this->revVector.push_back(a);
         }
         return reduce(d);
     }

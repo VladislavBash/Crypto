@@ -60,3 +60,6 @@ class  Galois_field { // Поле Галуа
     Polynomial sum(Polynomial a, Polynomial b);
     Polynomial multi(Polynomial a, Polynomial b);
 };
+
+extern int rem(int x, int r);
+Polynomial reduce(Polynomial c);
