@@ -263,4 +263,12 @@ TEST_CASE("CHECK_AFFINE_CIPHER") {
 
 TEST_CASE("CHECK_RECCURENT_AFFINE_CIPHER") {
     // REQUIRE();
+    std::string optext = "AABCDC";
+    int a1 = 2;
+    int a2 = 3;
+    int b1 = 4;
+    int b2 = 6;
+    std::string cltext = Recurrent_Affine_Cipher::Encrypt(optext, a1, a2, b1, b2, "eng"); // РАБОТАЕТ!!!!!
+    std::string test = Recurrent_Affine_Cipher::Decrypt(cltext, a1, a2, b1, b2, "eng");
+    REQUIRE(optext == test);
 }
