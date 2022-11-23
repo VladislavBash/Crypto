@@ -9,7 +9,7 @@
     std::string Affine_Cipher::Encrypt(std::string opText, int a, int b, std::string lang) {
         if (a == 0) { throw std::invalid_argument("a is 0"); }
         a--;
-        Galois_field g{2,2};
+        Galois_field g{3,3};
         Polynomial g_a = g.multiGroup.at(a);
         Polynomial g_b = g.group.at(b);
         std::string clText = "";
@@ -29,7 +29,7 @@
 
         // return opText;
     }
-
+    
     std::string Affine_Cipher::Decrypt(std::string clText, int a, int b, std::string lang) {
         // this->opText = "";
         // char x;
@@ -40,10 +40,11 @@
         // }
         if (a == 0) { throw std::invalid_argument("a is 0"); }
         a--;
-        Galois_field g{2,2};
+        Galois_field g{3,3};
         Polynomial g_ra = g.atRevVector(g.multiGroup.at(a));
         Polynomial g_b = g.group.at(b);
-        g_b = g_b * Polynomial{{Monomial{-1,0}}, g.getBase()};
+        g_b = g_b * Polynomial{{Monomial{-1,0}}, g.getBase()}; // NEED TO FIX!!!!
+        g_b = reduce(g_b);
         std::string opText = "";
         std::string x;
         std::string y;
@@ -52,7 +53,9 @@
             y = y1;
             int num = translate(y, lang);
             Polynomial g_y = g.group.at(num);// t в многочлен переводим
-            auto x2 = g.atMultiTable(g.atSumTable(g_y, g_b), g_ra); // E(x) x = (y-b)*ra
+            auto q1 = g.atSumTable(g_y, g_b);
+            auto x2 = g.atMultiTable(q1, g_ra);
+            // auto x2 = g.atMultiTable(g.atSumTable(g_y, g_b), g_ra); // E(x) x = (y-b)*ra
             y = untranslate(x2.getVal(), lang);
             opText += y; // y переводим из многочлена в букву
         }
