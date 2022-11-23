@@ -1,6 +1,6 @@
 #pragma once
 #include <vector>
-class ERR {};
+#include <stdexcept>
 
 class Counter { // pow koefs
   private:
@@ -30,7 +30,7 @@ class Counter { // pow koefs
         this->count[size_t(k)] = 0;
         k--;
         if (k == -1)
-          throw ERR();
+          throw std::invalid_argument("list index out of range");
         this->count[size_t(k)]++;
     }
     return *this;
