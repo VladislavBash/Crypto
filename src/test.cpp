@@ -253,11 +253,12 @@ TEST_CASE("CHECK_SUBSTIOTUTION_CIPHER") {
 
 TEST_CASE("CHECK_AFFINE_CIPHER") {
     // REQUIRE();
-    auto optext = "AABCDC";
-    auto a = 1;
-    auto b = 1;
-    auto cltext = Affine_Cipher::Encrypt(optext, a, b, "eng"); // РАБОТАЕТ!!!!!
-    REQUIRE(optext == Affine_Cipher::Decrypt(cltext, a, b, "eng"));
+    std::string optext = "AABCDC";
+    int a = 5;
+    int b = 5;
+    std::string cltext = Affine_Cipher::Encrypt(optext, a, b, "eng"); // РАБОТАЕТ!!!!!
+    std::string test = Affine_Cipher::Decrypt(cltext, a, b, "eng");
+    REQUIRE(optext == test);
 }
 
 TEST_CASE("CHECK_RECCURENT_AFFINE_CIPHER") {
