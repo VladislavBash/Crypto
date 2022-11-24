@@ -11,7 +11,7 @@ std::string Recurrent_Affine_Cipher::Encrypt(std::string opText, int a1, int a2,
     if (a2 == 0) { throw std::invalid_argument("a2 is 0"); }
     // a1--;
     // a2--;
-    Galois_field g{3,2};
+    Galois_field g{3,3};
     std::string clText = "";
     std::string x;
     std::string y;
@@ -78,7 +78,7 @@ std::string Recurrent_Affine_Cipher::Decrypt(std::string clText, int a1, int a2,
     if (a2 == 0) { throw std::invalid_argument("a2 is 0"); }
     // a1--;
     // a2--;
-    Galois_field g{3,2};
+    Galois_field g{3,3};
     std::string opText = "";
     std::string x;
     std::string y;
