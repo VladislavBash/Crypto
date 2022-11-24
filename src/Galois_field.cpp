@@ -204,7 +204,7 @@ Polynomial Galois_field::atMultiTable(Polynomial first, Polynomial second) {
 }
 
 Polynomial Galois_field::atRevVector(Polynomial first) {
-    return this->revVector.at(first.getVal()-2);
+    return this->revVector.at(first.getVal()-1);
 }
 // void Galois_field::inSumTable(Polynomial first, Polynomial second, Polynomial elem) {
 //     // auto &a = this->sumTable.at(first);
