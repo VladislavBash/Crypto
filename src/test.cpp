@@ -1,6 +1,7 @@
 #include "doctest.h"
 #include <string>
-#include <locale>
+#include <clocale>
+#include <iostream>
 #include <bitset>
 #include "Affine_Cipher.hpp"
 #include "Counter.hpp"
@@ -11,15 +12,43 @@
 #include "Substitution_Cipher.hpp"
 #include "Translate.hpp"
 
+// std::locale locale("");
+// std::locale::global("");
+
 TEST_CASE("TRANSLATE") {
-    setlocale(LC_ALL, "ru-RUS");
+    // setlocale(LC_ALL, "ru-RUS");
+    // setlocale(LC_ALL, "ru_RU.UTF-8");
+    // std::locale::global( std::locale("ru_RU.UTF-8") );
+    // setlocale(LC_ALL, "ru_RU.UTF-8");
+	
+	// auto str = setlocale(LC_ALL, NULL);
+    // std::cout.imbue( std::locale() );
+    // setlocale(LC_ALL, "ru_RU.UTF-8");
+    // std::locale::global( std::locale("ru_RU.UTF-8") );
+    // std::cout.imbue(std::locale("ru_RU.UTF-8"));
+    // std::locale("UTF-8");
+    // setlocale(LC_ALL, NULL);
     // REQUIRE(translate("A", "eng") == 0);
     // REQUIRE(translate("W", "eng") == 22);
+    // std::locale locale("ru_RU.UTF-8");
     std::string o = "кУКУШКА";
     std::string q = "К";
     REQUIRE(o.at(0) == q.at(0));
     REQUIRE(translate("А", "rus") == 0);
     REQUIRE(translate("Ц", "rus") == 21);
+    // setlocale(LC_ALL, "en_US.utf8");
+	
+	// str = setlocale(LC_ALL, NULL);
+    // std::cout.imbue( std::locale() );
+    // std::locale("en_US.UTF-8");
+    // std::locale::global( std::locale("en_US.UTF-8") );
+    // std::locale("UTF-8");
+    // std::cout.imbue(std::locale("en_US.UTF-8"));
+    o = "kUKUSHKA";
+    q = "k";
+    REQUIRE(o.at(0) == q.at(0));
+    REQUIRE(translate("A", "eng") == 0);
+    REQUIRE(translate("V", "eng") == 21);
 }
 
 TEST_CASE("CHECK_COUNTER") {
