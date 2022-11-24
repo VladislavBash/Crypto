@@ -274,8 +274,8 @@ TEST_CASE("CHECK_RECCURENT_AFFINE_CIPHER") {
     int a2 = 3;
     int b1 = 4;
     int b2 = 6;
-    std::string cltext = Recurrent_Affine_Cipher::Encrypt(optext, a1, a2, b1, b2, "eng"); // РАБОТАЕТ!!!!!
-    std::string test = Recurrent_Affine_Cipher::Decrypt(cltext, a1, a2, b1, b2, "eng");
+    std::string cltext = Recurrent_Affine_Cipher::Encrypt(optext, a1, a2, b1, b2, "eng", 4); // РАБОТАЕТ!!!!!
+    std::string test = Recurrent_Affine_Cipher::Decrypt(cltext, a1, a2, b1, b2, "eng", 4);
     REQUIRE(optext == test);
 }
 

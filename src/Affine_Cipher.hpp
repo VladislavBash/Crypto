@@ -10,4 +10,4 @@ class Affine_Cipher {
     static std::string Decrypt(std::string clText, int a, int b, std::string lang, int n = 0);
 };
 
-extern std::vector<int> bit_trans(std::string text, std::string lang, int n);
+// extern std::vector<int> bit_trans(std::string text, std::string lang, int n);

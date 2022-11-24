@@ -14,6 +14,8 @@ class Recurrent_Affine_Cipher {
     // void Encrypt();
     // void Decrypt();
     public:
-    static std::string Encrypt(std::string opText, int a1, int a2, int b1, int b2, std::string lang);
-    static std::string Decrypt(std::string clText, int a1, int a2, int b1, int b2, std::string lang);
+    static std::string Encrypt(std::string opText, int a1, int a2, int b1, int b2, std::string lang, int n = 0);
+    static std::string Decrypt(std::string clText, int a1, int a2, int b1, int b2, std::string lang, int n = 0);
 };
+
+// extern std::vector<int> bit_trans(std::string text, std::string lang, int n);

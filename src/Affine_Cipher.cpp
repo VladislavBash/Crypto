@@ -6,56 +6,58 @@
 #include "Galois_field.hpp"
 #include "Affine_Cipher.hpp"
 #include "Translate.hpp"
+#include "Translate_to_bin.hpp"
 #include "toUpperCase.hpp"
+
     // class ERR_A_is_Zero {};
 
-    std::vector<int> bit_trans(std::string opText, std::string lang, int n) {
-        std::string x;
-        std::string str;
-        std::vector<int> result;
-        for (auto x1: opText) {
-            x = x1;
-            int num = translate(x, lang);
-            auto bitnum = std::bitset<8>(num);
-            str += bitnum.to_string();
-        }
-        for (int i=0; i<str.size(); i+=n) {
-            auto z = std::bitset<8>(str.substr(i, n));
-            auto t = (z).to_ulong();
-            result.push_back(int(t));
-        }
-        return result;
-    }
+    // std::vector<int> bit_trans(std::string opText, std::string lang, int n) {
+    //     std::string x;
+    //     std::string str;
+    //     std::vector<int> result;
+    //     for (auto x1: opText) {
+    //         x = x1;
+    //         int num = translate(x, lang);
+    //         auto bitnum = std::bitset<8>(num);
+    //         str += bitnum.to_string();
+    //     }
+    //     for (int i=0; i<str.size(); i+=n) {
+    //         auto z = std::bitset<8>(str.substr(i, n));
+    //         auto t = (z).to_ulong();
+    //         result.push_back(int(t));
+    //     }
+    //     return result;
+    // }
 
-    std::string collapse(std::string col, int n) {
+    // std::string collapse(std::string col, int n) {
 
-        return col.substr(col.size()-n, n);
-    }
+    //     return col.substr(col.size()-n, n);
+    // }
 
-    std::string bit_untrans(std::string clText, std::string lang, int n) {
-        std::string x;
-        std::string str;
-        std::string result;
-        for (auto x1: clText) {
-            x = x1;
-            int num = translate(x, lang);
-            auto bitnum = std::bitset<8>(num);
-            auto col = bitnum.to_string();
-            str += collapse(col, n);
-        }
-        for (int i=0; i<str.size(); i+=8) {
-            auto z = std::bitset<8>(str.substr(i, 8));
-            auto t = (z).to_ulong();
-            result += untranslate(t, lang);
-        }
-        return result;
-    }
+    // std::string bit_untrans(std::string clText, std::string lang, int n) {
+    //     std::string x;
+    //     std::string str;
+    //     std::string result;
+    //     for (auto x1: clText) {
+    //         x = x1;
+    //         int num = translate(x, lang);
+    //         auto bitnum = std::bitset<8>(num);
+    //         auto col = bitnum.to_string();
+    //         str += collapse(col, n);
+    //     }
+    //     for (int i=0; i<str.size(); i+=8) {
+    //         auto z = std::bitset<8>(str.substr(i, 8));
+    //         auto t = (z).to_ulong();
+    //         result += untranslate(t, lang);
+    //     }
+    //     return result;
+    // }
 
     std::string Affine_Cipher::Encrypt(std::string opText, int a, int b, std::string lang, int n) {
         if (a == 0) { throw std::invalid_argument("a is 0"); }
         if (n < 0) { throw std::invalid_argument("n below 0"); }
         if ( n != 0 && 8*opText.size() % n != 0) { throw std::invalid_argument("text isn`t divisible by n"); }
-        a--;
+        // a--;
         Galois_field g{2,2};
         if (n > 0) {
             g = {2,n};
@@ -63,7 +65,7 @@
             g = {3,3};
             // g = {2,8};
         }
-        Polynomial g_a = g.multiGroup.at(a);
+        Polynomial g_a = g.multiGroup.at(a-1);
         Polynomial g_b = g.group.at(b);
         std::string clText = "";
         std::string y;
