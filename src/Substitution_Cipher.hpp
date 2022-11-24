@@ -7,9 +7,11 @@ class Substitution_Cipher {
     std::string opText = "";
     std::string clText = "";
     public:
+    Substitution_Cipher(std::string k) { setKeys(k); }
     Substitution_Cipher(std::map<char, char> k) { setKeys(k); }
     ~Substitution_Cipher() {}
     void setKeys(std::map<char, char> k);
+    void setKeys(std::string k);
     std::map<char, char> getKey();
     std::map<char, char> getRkey();
     void setOpText(std::string text);

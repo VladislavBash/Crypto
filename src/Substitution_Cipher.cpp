@@ -1,6 +1,7 @@
 #include <map>
 #include <string>
 #include <locale>
+#include <stdexcept>
 #include "Substitution_Cipher.hpp"
 #include "toUpperCase.hpp"
 
@@ -9,6 +10,25 @@ void Substitution_Cipher::setKeys(std::map<char, char> k) {
     for (auto x: k) {
         this->rkey.insert({x.second, x.first});
     }
+}
+
+void Substitution_Cipher::setKeys(std::string k) {
+    // this->key = k;
+    // for (auto x: k) {
+    //     this->rkey.insert({x.second, x.first});
+    // }
+    if (k.size() != 26)
+        throw std::invalid_argument("key`s length isn`t 26");
+    static const std::string text = "ABCDEFGHIJKLMNOPQRSTUVWXYZ";
+    std::map<char,char> m;
+    std::map<char,char> rm;
+    k = toUpperCase(k);
+    for (int i =0 ; i<k.size(); i++) {
+        m.insert({text[i], k[i]});
+        rm.insert({k[i], text[i]});
+    }
+    this->key = m;
+    this->rkey = rm;
 }
 
 std::map<char, char> Substitution_Cipher::getKey() { return this->key; }

@@ -266,19 +266,28 @@ TEST_CASE("CHECK_GALOIS_FIELD") {
 
 TEST_CASE("CHECK_SUBSTIOTUTION_CIPHER") {
     // REQUIRE();
-    std::map<char, char> key{{'A','B'},{'B','C'},{'C','D'},{'D','A'}};
-    Substitution_Cipher a{key};
-    REQUIRE(a.getKey().at('A') == 'B');
-    REQUIRE(a.getKey().at('B') == 'C');
-    REQUIRE(a.getKey().at('C') == 'D');
-    REQUIRE(a.getKey().at('D') == 'A');
-    REQUIRE(a.getRkey().at('A') == 'D');
-    REQUIRE(a.getRkey().at('B') == 'A');
-    REQUIRE(a.getRkey().at('C') == 'B');
-    REQUIRE(a.getRkey().at('D') == 'C');
-    a.setOpText(std::string("dCab"));
-    REQUIRE(a.Encrypt() == std::string("ADBC"));
-    REQUIRE(a.Decrypt() == std::string("DCAB"));
+    // std::map<char, char> key{{'A','B'},{'B','C'},{'C','D'},{'D','A'}};
+    // Substitution_Cipher a{key};
+    // REQUIRE(a.getKey().at('A') == 'B');
+    // REQUIRE(a.getKey().at('B') == 'C');
+    // REQUIRE(a.getKey().at('C') == 'D');
+    // REQUIRE(a.getKey().at('D') == 'A');
+    // REQUIRE(a.getRkey().at('A') == 'D');
+    // REQUIRE(a.getRkey().at('B') == 'A');
+    // REQUIRE(a.getRkey().at('C') == 'B');
+    // REQUIRE(a.getRkey().at('D') == 'C');
+    // a.setOpText(std::string("dCab"));
+    // REQUIRE(a.Encrypt() == std::string("ADBC"));
+    // REQUIRE(a.Decrypt() == std::string("DCAB"));
+    std::string text = "dCaD";
+    // std::string k = "bcda";
+    std::string k = "GUOPDXEKHFMYWCNRTBSQJIAVZL";
+    Substitution_Cipher b{k};
+    b.setOpText(text);
+    // REQUIRE(b.Encrypt() == std::string("ADBC"));
+    // REQUIRE(b.Decrypt() == std::string("DCAB"));
+    REQUIRE(b.Encrypt() == std::string("POGP"));
+    REQUIRE(b.Decrypt() == std::string("DCAD"));
 }
 
 TEST_CASE("CHECK_AFFINE_CIPHER") {
