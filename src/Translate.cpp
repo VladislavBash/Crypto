@@ -33,7 +33,7 @@ std::map<int, std::string> chooseUnMap(std::string lang) {
 }
 
 int translate(std::string a, std::string lang) {
-    static std::map<std::string, int> m = chooseMap(lang);
+    std::map<std::string, int> m = chooseMap(lang);
     return m.at(a);
 }
 
