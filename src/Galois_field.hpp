@@ -43,6 +43,7 @@ class  Galois_field { // Поле Галуа
     // this->multygroup = this->group;
     // this->multygroup.erase(this->multygroup.begin());
 // }
+    Galois_field() {}
     Galois_field(int y, int x);
     ~Galois_field() {}
     void constructPole();
