@@ -124,6 +124,18 @@ double get_IC(std::string str) {
 // }
 // }
 
+void get_bettas(Polynomial& b1, Polynomial& b2, Polynomial y1, Polynomial y2, Polynomial f1, Polynomial f2, int i) {
+    auto t = Polynomial{{Monomial{fib(i+1),0}}, BASE};
+    auto tt = Polynomial{{Monomial{fib(i-1),0}}, BASE};
+    auto  r = Polynomial{{Monomial{fib(i),0}}, BASE};
+    auto q = (y2+f2)*r;
+    q = q * Polynomial{{Monomial{-1,0}}, BASE};
+    auto qq = (y1+f1)*r;
+    qq = qq * Polynomial{{Monomial{-1,0}}, BASE};
+    b1 = ((y1+f1)*t + q) * Polynomial{{Monomial{1/(fib(i-1)*fib(i+1)-fib(i)*fib(i)), 0}}, BASE};
+    b2 = (tt*(y2+f2) + qq) * Polynomial{{Monomial{1/(fib(i-1)*fib(i+1)-fib(i)*fib(i)), 0}}, BASE};
+}
+
 
 void get_alphas(const std::string& clText, const std::string& word, std::vector<std::vector<int>>& keys, Galois_field& g, int num) {
     static const std::string alph = "ABCDEFGHIJKLMNOPQRSTUVWXYZ";
@@ -145,13 +157,14 @@ void get_alphas(const std::string& clText, const std::string& word, std::vector<
     Polynomial y1{{Monomial{0,0}}, BASE};
     Counter c1{SIZE, BASE};
     Counter c2{SIZE, BASE};
+    Counter c_start = Counter{SIZE, BASE};
     for (int k=0; k < word.size()-2; k++) { // word.size
     start = k + num;
     for (int i=0; i < MOD; i++) {
         for (int j=0; j < MOD; j++) {
             if (start == 0) {
-                a1 = g.atMultiTable(Polynomial{c1, BASE}, Polynomial{Counter{000}, BASE}); // aa
-                a2 = g.atMultiTable(Polynomial{Counter{000}, BASE}, Polynomial{c2, BASE}); // aa
+                a1 = g.atMultiTable(Polynomial{c1, BASE}, Polynomial{c_start, BASE}); // aa
+                a2 = g.atMultiTable(Polynomial{c_start, BASE}, Polynomial{c2, BASE}); // aa
                 a3 = g.atMultiTable(Polynomial{c1, BASE}, Polynomial{c2, BASE}); // aa
             } else {
                 a1 = a2; // aa
@@ -207,18 +220,6 @@ void get_alphas(const std::string& clText, const std::string& word, std::vector<
 //     }
 // }
 
-void get_bettas(Polynomial& b1, Polynomial& b2, Polynomial y1, Polynomial y2, Polynomial f1, Polynomial f2, int i) {
-    auto t = Polynomial{{Monomial{fib(i+1),0}}, BASE};
-    auto tt = Polynomial{{Monomial{fib(i-1),0}}, BASE};
-    auto  r = Polynomial{{Monomial{fib(i),0}}, BASE};
-    auto q = (y2+f2)*r;
-    q = q * Polynomial{{Monomial{-1,0}}, BASE};
-    auto qq = (y1+f1)*r;
-    qq = qq * Polynomial{{Monomial{-1,0}}, BASE};
-    b1 = ((y1+f1)*t + q) * Polynomial{{Monomial{1/(fib(i-1)*fib(i+1)-fib(i)*fib(i)), 0}}, BASE};
-    b2 = (tt*(y2+f2) + qq) * Polynomial{{Monomial{1/(fib(i-1)*fib(i+1)-fib(i)*fib(i)), 0}}, BASE};
-}
-
 // std::vector<std::vector<int>> get_keys(std::string clText, std::string word, Galois_field g, int i) {
 //     // std::vector<std::vector<int>> keys;
 //     // get_alphas(clText, word, keys, g, i);
@@ -230,8 +231,8 @@ void get_bettas(Polynomial& b1, Polynomial& b2, Polynomial y1, Polynomial y2, Po
 std::string analysis(std::string clText, std::string word) {
     Galois_field g{3,3};
     const auto IC = 0.0667; // for eng
-    std::string clText = "jdnfjfnfdjdnfjdfn";
-    std::string word = "help";
+    // std::string clText = "jdnfjfnfdjdnfjdfn";
+    // std::string word = "help";
     std::string text = "";
     for (int i=0; i < clText.size()-word.size()+1; i++) {
     double buf = 1000;
