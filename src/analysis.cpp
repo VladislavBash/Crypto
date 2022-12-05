@@ -144,7 +144,7 @@ void get_bettas(Polynomial& b1, Polynomial& b2, Polynomial y1, Polynomial y2, Po
 }
 
 
-void get_alphas(const std::string& clText, const std::string& word, std::vector<std::vector<int>>& keys, Galois_field& g) {
+void get_alphas(const std::string& clText, const std::string& word, std::vector<std::vector<int>>& keys, Galois_field& g, int num) {
     static const std::string alph = "ABCDEFGHIJKLMNOPQRSTUVWXYZ";
     // std::string sstr = "";
     std::vector<int> keys_lst;
@@ -290,7 +290,7 @@ std::string analysis(std::string clText, std::string word) {
     // std::string clText = "jdnfjfnfdjdnfjdfn";
     // std::string word = "help";
     std::string text = "";
-    // for (int i=0; i < int(clText.size()-word.size()+1); i++) {
+    for (int i=0; i < int(clText.size()-word.size()+1); i++) {
     double buf = 1000;
     std::string str = "";
     std::vector<int> a1;
@@ -307,7 +307,7 @@ std::string analysis(std::string clText, std::string word) {
     // get_bettas(a1 ,a2, b1, b2);
 
     // for (int j=0; j<int(keys.size()); j++) {
-    get_alphas(clText, word, keys, g); // for one certain position
+    get_alphas(clText, word, keys, g, i); // for one certain position
     // if (keys.size() != 0) {
     //     buf = 121;
     // }
@@ -327,7 +327,7 @@ std::string analysis(std::string clText, std::string word) {
         break;
     }
     }
-    // }
+    }
 
     std::cout << text << std::endl;
     return text;
