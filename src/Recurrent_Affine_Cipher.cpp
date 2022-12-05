@@ -54,8 +54,8 @@ std::string Recurrent_Affine_Cipher::Encrypt(std::string opText, int a1, int a2,
     if (a1 == 0) { throw std::invalid_argument("a1 is 0"); }
     if (a2 == 0) { throw std::invalid_argument("a2 is 0"); }
     if ( n != 0 && 8*opText.size() % n != 0) { throw std::invalid_argument("text isn`t divisible by n"); }
-    // a1--;
-    // a2--;
+    a1--;
+    a2--;
     Galois_field g{2,2};
         if (n > 0) {
             g = {2,n};
@@ -107,7 +107,7 @@ std::string Recurrent_Affine_Cipher::Encrypt(std::string opText, int a1, int a2,
             g_a = g.atMultiTable(a.at(k-1), a.at(k-2));
             // g_a = reduce(g_a);
             // g_b = b.at(k-1) + b.at(k-2);
-            g_b = g.atMultiTable(b.at(k-1), b.at(k-2));
+            g_b = g.atSumTable(b.at(k-1), b.at(k-2));
             // g_b = reduce(g_b);
             a.push_back(g_a);
             b.push_back(g_b);
@@ -116,7 +116,7 @@ std::string Recurrent_Affine_Cipher::Encrypt(std::string opText, int a1, int a2,
         }
             // Polynomial g_a = g.group.at();
             // Polynomial g_b = g.group.at();
-
+            auto ooop = g.atMultiTable(g_a, g_x);
             auto x2 = g.atSumTable(g.atMultiTable(g_a, g_x), g_b) ; // E(x)
             y = untranslate(x2.getVal(), lang);
             clText += y; // y переводим из многочлена в букву
@@ -138,8 +138,8 @@ std::string Recurrent_Affine_Cipher::Decrypt(std::string clText, int a1, int a2,
     if (a1 == 0) { throw std::invalid_argument("a1 is 0"); }
     if (a2 == 0) { throw std::invalid_argument("a2 is 0"); }
     if ( n != 0 && 8*clText.size() % n != 0) { throw std::invalid_argument("text isn`t divisible by n"); }
-    // a1--;
-    // a2--;
+    a1--;
+    a2--;
     Galois_field g{2,2};
         if (n > 0) {
             g = {2,n};
@@ -156,6 +156,9 @@ std::string Recurrent_Affine_Cipher::Decrypt(std::string clText, int a1, int a2,
     std::vector<Polynomial> b;
     std::vector<int> vec;
     int k = 0;
+    // if (n > 0) {
+    //         clText = bit_untrans(clText, lang, n);        
+    //     }
     clText = toUpperCase(clText);
     std::string x;
     for (auto x1: clText) {
@@ -186,7 +189,7 @@ std::string Recurrent_Affine_Cipher::Decrypt(std::string clText, int a1, int a2,
             // g_ra = a.at(k-1) * a.at(k-2);
             g_ra = g.atMultiTable(a.at(k-1), a.at(k-2));
             // g_b = b.at(k-1) + b.at(k-2);
-            g_b = g.atMultiTable(b.at(k-1), b.at(k-2));
+            g_b = g.atSumTable(b.at(k-1), b.at(k-2));
             a.push_back(g_ra);
             b.push_back(g_b);
             k++;

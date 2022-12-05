@@ -15,7 +15,7 @@ int fib(int n) {
     auto s = sqrt(5);
     auto a = pow((1+s)/2, n);
     auto b = pow((1-s)/2, n);
-    return (a - b)/s;
+    return int((a - b)/s);
 }
 
 std::map<std::string, int> count(std::string str) {
@@ -32,7 +32,7 @@ std::map<std::string, int> count(std::string str) {
 
 double get_IC(std::string str) {
     double IC = 0;
-    int N = str.size();
+    int N = int(str.size());
     auto arr = count(str);
     int n = 0;
     for (auto x: arr) {
@@ -132,17 +132,27 @@ void get_bettas(Polynomial& b1, Polynomial& b2, Polynomial y1, Polynomial y2, Po
     q = q * Polynomial{{Monomial{-1,0}}, BASE};
     auto qq = (y1+f1)*r;
     qq = qq * Polynomial{{Monomial{-1,0}}, BASE};
-    b1 = ((y1+f1)*t + q) * Polynomial{{Monomial{1/(fib(i-1)*fib(i+1)-fib(i)*fib(i)), 0}}, BASE};
-    b2 = (tt*(y2+f2) + qq) * Polynomial{{Monomial{1/(fib(i-1)*fib(i+1)-fib(i)*fib(i)), 0}}, BASE};
+    if (i == 0) {
+        b1 = y1+f1;
+        b2 = y2+f2;
+     } else {
+        b1 = ((y1+f1)*t + q) * Polynomial{{Monomial{1/(fib(i-1)*fib(i+1)-fib(i)*fib(i)), 0}}, BASE};
+        b2 = (tt*(y2+f2) + qq) * Polynomial{{Monomial{1/(fib(i-1)*fib(i+1)-fib(i)*fib(i)), 0}}, BASE};
+    }
+    b1 = reduce(b1);
+    b2 = reduce(b2);
 }
 
 
 void get_alphas(const std::string& clText, const std::string& word, std::vector<std::vector<int>>& keys, Galois_field& g, int num) {
     static const std::string alph = "ABCDEFGHIJKLMNOPQRSTUVWXYZ";
+    // std::string sstr = "";
+    int fordeletevar = 0;
+    std::string help_var = "";
     std::vector<int> vec;
     std::vector<int> addit_list;
     std::map<std::vector<int>, int> lst;
-    int start = 0;
+    int start_pos = num;
     Polynomial b1{{Monomial{0,0}}, BASE};
     Polynomial b2{{Monomial{0,0}}, BASE};
     Polynomial f1{{Monomial{0,0}}, BASE};
@@ -156,40 +166,65 @@ void get_alphas(const std::string& clText, const std::string& word, std::vector<
     Polynomial y2{{Monomial{0,0}}, BASE};
     Polynomial y1{{Monomial{0,0}}, BASE};
     Counter c1{SIZE, BASE};
+    ++c1;
     Counter c2{SIZE, BASE};
+    ++c2;
     Counter c_start = Counter{SIZE, BASE};
-    for (int k=0; k < word.size()-2; k++) { // word.size
-    start = k + num;
-    for (int i=0; i < MOD; i++) {
-        for (int j=0; j < MOD; j++) {
-            if (start == 0) {
-                a1 = g.atMultiTable(Polynomial{c1, BASE}, Polynomial{c_start, BASE}); // aa
-                a2 = g.atMultiTable(Polynomial{c_start, BASE}, Polynomial{c2, BASE}); // aa
+    ++c_start;
+    for (int k=0; k < int(word.size())-2; k++) { // word.size
+    // start_pos = k + num;
+    for (int i=0; i < MOD-2; i++) { //  i=start_pos
+        for (int j=0; j < MOD-2; j++) {
+            if (start_pos == 0) {
+                // a1 = g.atMultiTable(Polynomial{c1, BASE}, Polynomial{c_start, BASE}); // aa
+                // a2 = g.atMultiTable(Polynomial{c_start, BASE}, Polynomial{c2, BASE}); // aa
+                a1 = g.atMultiTable(Polynomial{c2, BASE}, Polynomial{c_start, BASE}); // aa
+                a2 = g.atMultiTable(Polynomial{c_start, BASE}, Polynomial{c1, BASE}); // aa
                 a3 = g.atMultiTable(Polynomial{c1, BASE}, Polynomial{c2, BASE}); // aa
             } else {
                 a1 = a2; // aa
                 a2 = a3; // aa
                 a3 = g.atMultiTable(a1, a2); // aa
             }
-            f1 = g.atMultiTable(a1, g.group.at(word.at(k))); // aax
-            f2 = g.atMultiTable(a2, g.group.at(word.at(k+1))); // aax
-            f3 = g.atMultiTable(a3, g.group.at(word.at(k+2))); // aax
-            y1 = Polynomial{Counter{000}+clText.at(start), BASE};
-            y2 = Polynomial{Counter{000}+clText.at(start+1), BASE};
-            y3 = Polynomial{Counter{000}+clText.at(start+2), BASE};
+            help_var = word.at(size_t(k));
+            f1 = g.atMultiTable(a1, g.group.at(alph.find(help_var))); // aax
+            help_var = word.at(size_t(k+1));
+            f2 = g.atMultiTable(a2, g.group.at(alph.find(help_var))); // aax
+            help_var = word.at(size_t(k+2));
+            f3 = g.atMultiTable(a3, g.group.at(alph.find(help_var))); // aax
+            // y1 = Polynomial{Counter{SIZE, BASE}+alph.find(clText.at(size_t(start_pos))), BASE};
+            // y2 = Polynomial{Counter{SIZE, BASE}+alph.find(clText.at(size_t(start_pos+1))), BASE};
+            // y3 = Polynomial{Counter{SIZE, BASE}+alph.find(clText.at(size_t(start_pos+2))), BASE};
+            y1 = Polynomial{Counter{SIZE, BASE}+alph.find(clText.at(size_t(k))), BASE};
+            y2 = Polynomial{Counter{SIZE, BASE}+alph.find(clText.at(size_t(k+1))), BASE};
+            y3 = Polynomial{Counter{SIZE, BASE}+alph.find(clText.at(size_t(k+2))), BASE};
             y1 = y1 * Polynomial{{Monomial{-1,0}}, BASE};
             y2 = y2 * Polynomial{{Monomial{-1,0}}, BASE};
             y = y3 + y2 + y1;
             f1 = f1 * Polynomial{{Monomial{-1,0}}, BASE};
             f2 = f2 * Polynomial{{Monomial{-1,0}}, BASE};
-            if (((f3+f2+f1).getVal() % MOD) == (y.getVal() % MOD)) {
+            auto red_f = (reduce(f3+f2+f1)).getVal();
+            auto red_y = reduce(y).getVal();
+            if (a1.getVal() == 3 && a2.getVal() == 6) {
+                    fordeletevar = 1;
+                }
+            if ((red_f % MOD) == (red_y % MOD)) {
                 vec.push_back(a1.getVal());
                 vec.push_back(a2.getVal());
                 // keys.push_back(vec);
-                f1 = f1 * Polynomial{{Monomial{-1,0}}, BASE};
-                f2 = f2 * Polynomial{{Monomial{-1,0}}, BASE};
-                get_bettas(b1, b2, y1, y2, f1, f2, i);
-                addit_list.push_back((a1.getVal(), a2.getVal(), b1.getVal(), b2.getVal()));
+                // f1 = f1 * Polynomial{{Monomial{-1,0}}, BASE};
+                // f2 = f2 * Polynomial{{Monomial{-1,0}}, BASE};
+                y1 = y1 * Polynomial{{Monomial{-1,0}}, BASE};
+                y2 = y2 * Polynomial{{Monomial{-1,0}}, BASE};
+                if (i == 1 && j == 2) {
+                    fordeletevar = 1;
+                }
+                get_bettas(b1, b2, y1, y2, f1, f2, k);
+                // addit_list.push_back((a1.getVal(), a2.getVal(), b1.getVal(), b2.getVal()));
+                addit_list.push_back(a1.getVal());
+                addit_list.push_back(a2.getVal());
+                addit_list.push_back(b1.getVal());
+                addit_list.push_back(b2.getVal());
                 lst[addit_list] += 1;
                 addit_list.clear();
                 vec.clear();
@@ -197,14 +232,17 @@ void get_alphas(const std::string& clText, const std::string& word, std::vector<
             ++c1;
         }
         c1 = {SIZE, BASE};
+        ++c1;
         ++c2;
     }
     c1 = {SIZE, BASE};
     c2 = {SIZE, BASE};
+    ++c1;
+    ++c2;
     // lst[] += 1;
     }
     for (auto x: lst) {
-        if (x.second ==  word.size()-2) {
+        if (x.second ==  int(word.size())-2) {
             // auto r = x.first;
             // get_bettas();
             // r.push_back(b1);
@@ -234,7 +272,7 @@ std::string analysis(std::string clText, std::string word) {
     // std::string clText = "jdnfjfnfdjdnfjdfn";
     // std::string word = "help";
     std::string text = "";
-    for (int i=0; i < clText.size()-word.size()+1; i++) {
+    for (int i=0; i < int(clText.size()-word.size()+1); i++) {
     double buf = 1000;
     std::string str = "";
     std::vector<int> a1;
@@ -250,10 +288,15 @@ std::string analysis(std::string clText, std::string word) {
     // get_alphas(clText, word, a1 ,a2, g);
     // get_bettas(a1 ,a2, b1, b2);
 
-    for (int j=0; j<keys.size(); j++) {
+    // for (int j=0; j<int(keys.size()); j++) {
+    get_alphas(clText, word, keys, g, i); // for one certain position
+    // if (keys.size() != 0) {
+    //     buf = 121;
+    // }
+    for (int j=0; j<int(keys.size()); j++) {
         
     // }
-    get_alphas(clText, word, keys, g, j);
+    // get_alphas(clText, word, keys, g, j);
     // str = Recurrent_Affine_Cipher::Decrypt(clText, a1.at(j), a2.at(j), b1.at(j), b2.at(j), "eng");
     str = Recurrent_Affine_Cipher::Decrypt(clText, keys.at(j).at(0), keys.at(j).at(1), keys.at(j).at(2), keys.at(j).at(3), "eng");
 
