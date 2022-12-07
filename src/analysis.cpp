@@ -125,6 +125,7 @@ double get_IC(std::string str) {
 // }
 
 void get_bettas(Polynomial& b1, Polynomial& b2, Polynomial y1, Polynomial y2, Polynomial f1, Polynomial f2, int i) {
+    Polynomial n{{Monomial{0,0}}, BASE};
     auto t = Polynomial{{Monomial{fib(i+1),0}}, BASE};
     auto tt = Polynomial{{Monomial{fib(i-1),0}}, BASE};
     auto  r = Polynomial{{Monomial{fib(i),0}}, BASE};
@@ -132,19 +133,26 @@ void get_bettas(Polynomial& b1, Polynomial& b2, Polynomial y1, Polynomial y2, Po
     q = q * Polynomial{{Monomial{-1,0}}, BASE};
     auto qq = (y1+f1)*r;
     qq = qq * Polynomial{{Monomial{-1,0}}, BASE};
-    if (i == 0) {
-        b1 = y1+f1;
-        b2 = y2+f2;
-     } else {
-        b1 = ((y1+f1)*t + q) * Polynomial{{Monomial{1/(fib(i-1)*fib(i+1)-fib(i)*fib(i)), 0}}, BASE};
-        b2 = (tt*(y2+f2) + qq) * Polynomial{{Monomial{1/(fib(i-1)*fib(i+1)-fib(i)*fib(i)), 0}}, BASE};
+    if (i % 2 == 0) {
+        n = {{Monomial{1,0}}, BASE};
+    } else {
+        n = {{Monomial{-1,0}}, BASE};
     }
+    // if (i == 0) {
+    //     b1 = y1+f1;
+    //     b2 = y2+f2;
+    //  } else {
+    //     b1 = ((y1+f1)*t + q) * Polynomial{{Monomial{pow(-1, i),0}}, BASE};
+    //     b2 = (tt*(y2+f2) + qq) * Polynomial{{Monomial{pow(-1, i),0}}, BASE};
+    // }
+    b1 = ((y1+f1)*t + q) * n;
+    b2 = (tt*(y2+f2) + qq) * n;
     b1 = reduce(b1);
     b2 = reduce(b2);
 }
 
 
-void get_alphas(const std::string& clText, const std::string& word, std::vector<std::vector<int>>& keys, Galois_field& g, int num) {
+void get_alphas(const std::string& clText, const std::string& word, std::vector<std::vector<int>>& keys, Galois_field& g) {
     static const std::string alph = "ABCDEFGHIJKLMNOPQRSTUVWXYZ";
     // std::string sstr = "";
     std::vector<int> keys_lst;
@@ -167,6 +175,8 @@ void get_alphas(const std::string& clText, const std::string& word, std::vector<
     Polynomial y3{{Monomial{0,0}}, BASE};
     Polynomial y2{{Monomial{0,0}}, BASE};
     Polynomial y1{{Monomial{0,0}}, BASE};
+    Counter cc1{SIZE, BASE};
+    Counter cc2{SIZE, BASE};
     Counter c1{SIZE, BASE};
     ++c1;
     Counter c2{SIZE, BASE};
@@ -177,21 +187,44 @@ void get_alphas(const std::string& clText, const std::string& word, std::vector<
     // start_pos = k + num;
     for (int i=0; i < MOD-2; i++) { //  i=start_pos
         for (int j=0; j < MOD-2; j++) {
+            // keys_lst.push_back(a1.getVal());
+            // keys_lst.push_back(a2.getVal());
+            for (int pos=0; pos < int(clText.size()-word.size()+1); pos++) {
+                // if (a1.getVal() == 3 && a2.getVal() == 6) {
+                //     fordeletevar = 1;
+                // }
             for (int k=0; k < int(word.size())-2; k++) { // word.size
-                if (k == 0) {
+            if (i == 1 && j == 2 && pos == 1 && k == 0) {
+                    fordeletevar = 1;
+                }
+                if (k+pos == 0) {
                     // a1 = g.atMultiTable(Polynomial{c1, BASE},
                     // Polynomial{c_start, BASE}); // aa a2 =
                     // g.atMultiTable(Polynomial{c_start, BASE}, Polynomial{c2,
                     // BASE}); // aa
                     a1 = g.atMultiTable(Polynomial{c2, BASE}, Polynomial{c_start, BASE}); // aa
                     a2 = g.atMultiTable(Polynomial{c_start, BASE},  Polynomial{c1, BASE}); // aa
-                    a3 = g.atMultiTable(Polynomial{c1, BASE}, Polynomial{c2, BASE}); // aa
                     keys_lst.push_back(a1.getVal());
                     keys_lst.push_back(a2.getVal());
-                } else {
-                    a1 = a2;                     // aa
-                    a2 = a3;                     // aa
+                    a3 = g.atMultiTable(Polynomial{c1, BASE}, Polynomial{c2, BASE}); // aa
+                    // keys_lst.push_back(a1.getVal());
+                    // keys_lst.push_back(a2.getVal());
+                } 
+                else {
+                    cc1 = {SIZE, BASE};
+                    cc2 = {SIZE, BASE};
+                    a1 = {{cc1+keys_lst.at(0)}, BASE};                  // aa
+                    a2 = {{cc2+keys_lst.at(1)}, BASE};                    // aa
                     a3 = g.atMultiTable(a1, a2); // aa
+                    a1 = a2;
+                    a2 = a3;
+                    a3 = g.atMultiTable(a1, a2);
+                }
+                if (a1.getVal() == 3 && a2.getVal() == 6)  {
+                    fordeletevar = 1;
+                }
+                if (keys_lst.at(0) == 2 && keys_lst.at(1) == 3 && k == 0 && pos == 1) {
+                    fordeletevar = 1;
                 }
                 help_var = word.at(size_t(k));
                 f1 = g.atMultiTable(a1, g.group.at(alph.find(help_var))); // aax
@@ -205,9 +238,9 @@ void get_alphas(const std::string& clText, const std::string& word, std::vector<
                 // BASE}+alph.find(clText.at(size_t(start_pos+1))), BASE}; y3 =
                 // Polynomial{Counter{SIZE,
                 // BASE}+alph.find(clText.at(size_t(start_pos+2))), BASE};
-                y1 = Polynomial{Counter{SIZE, BASE} + alph.find(clText.at(size_t(k))), BASE};
-                y2 = Polynomial{Counter{SIZE, BASE} + alph.find(clText.at(size_t(k + 1))), BASE};
-                y3 = Polynomial{Counter{SIZE, BASE} + alph.find(clText.at(size_t(k + 2))), BASE};
+                y1 = Polynomial{Counter{SIZE, BASE} + alph.find(clText.at(size_t(k + pos))), BASE};
+                y2 = Polynomial{Counter{SIZE, BASE} + alph.find(clText.at(size_t(k + pos + 1))), BASE};
+                y3 = Polynomial{Counter{SIZE, BASE} + alph.find(clText.at(size_t(k + pos + 2))), BASE};
                 y1 = y1 * Polynomial{{Monomial{-1, 0}}, BASE};
                 y2 = y2 * Polynomial{{Monomial{-1, 0}}, BASE};
                 y = y3 + y2 + y1;
@@ -215,9 +248,9 @@ void get_alphas(const std::string& clText, const std::string& word, std::vector<
                 f2 = f2 * Polynomial{{Monomial{-1, 0}}, BASE};
                 auto red_f = (reduce(f3 + f2 + f1)).getVal();
                 auto red_y = reduce(y).getVal();
-                if (a1.getVal() == 3 && a2.getVal() == 6) {
-                    fordeletevar = 1;
-                }
+                // if (a1.getVal() == 3 && a2.getVal() == 6) {
+                //     fordeletevar = 1;
+                // }
                 if ((red_f % MOD) == (red_y % MOD)) {
                     // vec.push_back(a1.getVal());
                     // vec.push_back(a2.getVal());
@@ -229,7 +262,7 @@ void get_alphas(const std::string& clText, const std::string& word, std::vector<
                     if (i == 1 && j == 2) {
                         fordeletevar = 1;
                     }
-                    get_bettas(b1, b2, y1, y2, f1, f2, k);
+                    get_bettas(b1, b2, y1, y2, f1, f2, pos+k);
                     // addit_list.push_back((a1.getVal(), a2.getVal(),
                     // b1.getVal(), b2.getVal()));
                     addit_list.push_back(keys_lst.at(0));
@@ -242,8 +275,11 @@ void get_alphas(const std::string& clText, const std::string& word, std::vector<
                 }
                 // ++c1;
             }
-            ++c1;
+            // ++c1;
+            // keys_lst.clear();
+            }
             keys_lst.clear();
+            ++c1;
         }
         c1 = {SIZE, BASE};
         ++c1;
@@ -290,7 +326,7 @@ std::string analysis(std::string clText, std::string word) {
     // std::string clText = "jdnfjfnfdjdnfjdfn";
     // std::string word = "help";
     std::string text = "";
-    for (int i=0; i < int(clText.size()-word.size()+1); i++) {
+    // for (int i=0; i < int(clText.size()-word.size()+1); i++) {
     double buf = 1000;
     std::string str = "";
     std::vector<int> a1;
@@ -307,7 +343,7 @@ std::string analysis(std::string clText, std::string word) {
     // get_bettas(a1 ,a2, b1, b2);
 
     // for (int j=0; j<int(keys.size()); j++) {
-    get_alphas(clText, word, keys, g, i); // for one certain position
+    get_alphas(clText, word, keys, g); // for one certain position
     // if (keys.size() != 0) {
     //     buf = 121;
     // }
@@ -327,7 +363,7 @@ std::string analysis(std::string clText, std::string word) {
         break;
     }
     }
-    }
+    // }
 
     std::cout << text << std::endl;
     return text;

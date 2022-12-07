@@ -367,9 +367,9 @@ TEST_CASE("STR_AS_BITSET") {
 TEST_CASE("ANALYSIS") {
     std::string clText = "";
     std::string word = "HELLO";
-    std::string opText = "HELLOABCDEFGHIJKLMNOPQRSTUVWXYZZYXWVUTSRQPONMLKJIHGFEDCBA"; // 7 pos
-    int a1 = 2;
-    int a2 = 3;
+    std::string opText = "AHELLOBCDEFGHIJKLMNOPQRSTUVWXYZZYXWVUTSRQPONMLKJIHGFEDCBA"; // 7 pos
+    int a1 = 1;
+    int a2 = 1;
     int b1 = 4;
     int b2 = 6;
     clText = Recurrent_Affine_Cipher::Encrypt(opText, a1, a2, b1, b2, "eng");
