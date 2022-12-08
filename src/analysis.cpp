@@ -211,10 +211,10 @@ void get_alphas(const std::string& clText, const std::string& word, std::vector<
                     // keys_lst.push_back(a2.getVal());
                 } 
                 else {
-                    cc1 = {SIZE, BASE};
-                    cc2 = {SIZE, BASE};
-                    a1 = {{cc1+keys_lst.at(0)}, BASE};                  // aa
-                    a2 = {{cc2+keys_lst.at(1)}, BASE};                    // aa
+                    // cc1 = {SIZE, BASE};
+                    // cc2 = {SIZE, BASE};
+                    // a1 = {{cc1+keys_lst.at(0)}, BASE};                  // aa
+                    // a2 = {{cc2+keys_lst.at(1)}, BASE};                    // aa
                     a3 = g.atMultiTable(a1, a2); // aa
                     a1 = a2;
                     a2 = a3;

@@ -263,6 +263,8 @@ TEST_CASE("CHECK_GALOIS_FIELD") {
     Galois_field g{2,2};
     Counter s{3,2};
     REQUIRE(g.irrPolynomial == Polynomial{s+7, base});
+    Galois_field gg{3,3};
+    REQUIRE(gg.irrPolynomial.getVal() == 34);
 }
 
 TEST_CASE("CHECK_SUBSTIOTUTION_CIPHER") {
