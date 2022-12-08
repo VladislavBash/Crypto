@@ -125,6 +125,7 @@ double get_IC(std::string str) {
 // }
 
 void get_bettas(Polynomial& b1, Polynomial& b2, Polynomial y1, Polynomial y2, Polynomial f1, Polynomial f2, int i) {
+    Polynomial n{{Monomial{0,0}}, BASE};
     auto t = Polynomial{{Monomial{fib(i+1),0}}, BASE};
     auto tt = Polynomial{{Monomial{fib(i-1),0}}, BASE};
     auto  r = Polynomial{{Monomial{fib(i),0}}, BASE};
@@ -132,27 +133,56 @@ void get_bettas(Polynomial& b1, Polynomial& b2, Polynomial y1, Polynomial y2, Po
     q = q * Polynomial{{Monomial{-1,0}}, BASE};
     auto qq = (y1+f1)*r;
     qq = qq * Polynomial{{Monomial{-1,0}}, BASE};
-    if (i == 0) {
-        b1 = y1+f1;
-        b2 = y2+f2;
-     } else {
-        b1 = ((y1+f1)*t + q) * Polynomial{{Monomial{1/(fib(i-1)*fib(i+1)-fib(i)*fib(i)), 0}}, BASE};
-        b2 = (tt*(y2+f2) + qq) * Polynomial{{Monomial{1/(fib(i-1)*fib(i+1)-fib(i)*fib(i)), 0}}, BASE};
+    if (i % 2 == 0) {
+        n = {{Monomial{1,0}}, BASE};
+    } else {
+        n = {{Monomial{-1,0}}, BASE};
     }
+    // if (i == 0) {
+    //     b1 = y1+f1;
+    //     b2 = y2+f2;
+    //  } else {
+    //     b1 = ((y1+f1)*t + q) * Polynomial{{Monomial{pow(-1, i),0}}, BASE};
+    //     b2 = (tt*(y2+f2) + qq) * Polynomial{{Monomial{pow(-1, i),0}}, BASE};
+    // }
+    b1 = ((y1+f1)*t + q) * n;
+    b2 = (tt*(y2+f2) + qq) * n;
     b1 = reduce(b1);
     b2 = reduce(b2);
 }
 
+// void get_bettas(Polynomial& b1, Polynomial& b2, Polynomial y1, Polynomial y2, Polynomial f1, Polynomial f2, int i) {
+//     auto t = Polynomial{{Monomial{fib(i+1),0}}, BASE};
+//     auto tt = Polynomial{{Monomial{fib(i-1),0}}, BASE};
+//     auto  r = Polynomial{{Monomial{fib(i),0}}, BASE};
+//     auto q = (y2+f2)*r;
+//     q = q * Polynomial{{Monomial{-1,0}}, BASE};
+//     auto qq = (y1+f1)*r;
+//     qq = qq * Polynomial{{Monomial{-1,0}}, BASE};
+//     if (i == 0) {
+//         b1 = y1+f1;
+//         b2 = y2+f2;
+//      } else {
+//         b1 = ((y1+f1)*t + q) * Polynomial{{Monomial{1/(fib(i-1)*fib(i+1)-fib(i)*fib(i)), 0}}, BASE};
+//         b2 = (tt*(y2+f2) + qq) * Polynomial{{Monomial{1/(fib(i-1)*fib(i+1)-fib(i)*fib(i)), 0}}, BASE};
+//     }
+//     b1 = reduce(b1);
+//     b2 = reduce(b2);
+// }
 
-void get_alphas(const std::string& clText, const std::string& word, std::vector<std::vector<int>>& keys, Galois_field& g, int num) {
+
+void get_alphas(const std::string& clText, const std::string& word, std::vector<std::vector<int>>& keys, Galois_field& g, int pos) {
     static const std::string alph = "ABCDEFGHIJKLMNOPQRSTUVWXYZ";
     // std::string sstr = "";
-    std::vector<int> keys_lst;
+    static std::vector<int> keys_lst;
     std::map<std::vector<int>, int> lst;
     int fordeletevar = 0;
     std::string help_var = "";
     // std::vector<int> vec;
     std::vector<int> addit_list;
+
+    int showvar1 = 0;
+    int showvar2 = 0;
     // std::map<std::vector<int>, int> lst;
     // int start_pos = num;
     Polynomial b1{{Monomial{0,0}}, BASE};
@@ -177,7 +207,12 @@ void get_alphas(const std::string& clText, const std::string& word, std::vector<
     // start_pos = k + num;
     for (int i=0; i < MOD-2; i++) { //  i=start_pos
         for (int j=0; j < MOD-2; j++) {
+            // keys_lst.push_back(a1.getVal());
+            // keys_lst.push_back(a2.getVal());
             for (int k=0; k < int(word.size())-2; k++) { // word.size
+                // if (pos == 1 && keys_lst.at(0) == 2 && keys_lst.at(1) == 3) {
+                //     fordeletevar = 0;
+                // }
                 if (k == 0) {
                     // a1 = g.atMultiTable(Polynomial{c1, BASE},
                     // Polynomial{c_start, BASE}); // aa a2 =
@@ -188,10 +223,25 @@ void get_alphas(const std::string& clText, const std::string& word, std::vector<
                     a3 = g.atMultiTable(Polynomial{c1, BASE}, Polynomial{c2, BASE}); // aa
                     keys_lst.push_back(a1.getVal());
                     keys_lst.push_back(a2.getVal());
-                } else {
-                    a1 = a2;                     // aa
-                    a2 = a3;                     // aa
-                    a3 = g.atMultiTable(a1, a2); // aa
+                }
+                else {
+                        a1 = a2;                     // aa
+                        a2 = a3;                     // aa
+                        a3 = g.atMultiTable(a1, a2); // aa
+                    if (k == 0) {
+                        a1 = {Counter{SIZE, BASE}+keys_lst.at(0), BASE};            // aa
+                        a2 = {Counter{SIZE, BASE}+keys_lst.at(1), BASE};                     // aa
+                        a3 = g.atMultiTable(a1, a2); // aa
+                    } else {
+                        a1 = a2;                     // aa
+                        a2 = a3;                     // aa
+                        a3 = g.atMultiTable(a1, a2); // aa
+                    }
+                }
+                showvar1 = a1.getVal();
+                showvar2 = a2.getVal();
+                if (k ==0 && pos == 1 && showvar1 == 3 && showvar2 == 6) {
+                    fordeletevar = 0;
                 }
                 help_var = word.at(size_t(k));
                 f1 = g.atMultiTable(a1, g.group.at(alph.find(help_var))); // aax
@@ -205,9 +255,9 @@ void get_alphas(const std::string& clText, const std::string& word, std::vector<
                 // BASE}+alph.find(clText.at(size_t(start_pos+1))), BASE}; y3 =
                 // Polynomial{Counter{SIZE,
                 // BASE}+alph.find(clText.at(size_t(start_pos+2))), BASE};
-                y1 = Polynomial{Counter{SIZE, BASE} + alph.find(clText.at(size_t(k))), BASE};
-                y2 = Polynomial{Counter{SIZE, BASE} + alph.find(clText.at(size_t(k + 1))), BASE};
-                y3 = Polynomial{Counter{SIZE, BASE} + alph.find(clText.at(size_t(k + 2))), BASE};
+                y1 = Polynomial{Counter{SIZE, BASE} + alph.find(clText.at(size_t(k + pos))), BASE};
+                y2 = Polynomial{Counter{SIZE, BASE} + alph.find(clText.at(size_t(k + pos + 1))), BASE};
+                y3 = Polynomial{Counter{SIZE, BASE} + alph.find(clText.at(size_t(k + pos + 2))), BASE};
                 y1 = y1 * Polynomial{{Monomial{-1, 0}}, BASE};
                 y2 = y2 * Polynomial{{Monomial{-1, 0}}, BASE};
                 y = y3 + y2 + y1;
@@ -229,11 +279,13 @@ void get_alphas(const std::string& clText, const std::string& word, std::vector<
                     if (i == 1 && j == 2) {
                         fordeletevar = 1;
                     }
-                    get_bettas(b1, b2, y1, y2, f1, f2, k);
+                    get_bettas(b1, b2, y1, y2, f1, f2, pos);
                     // addit_list.push_back((a1.getVal(), a2.getVal(),
                     // b1.getVal(), b2.getVal()));
                     addit_list.push_back(keys_lst.at(0));
                     addit_list.push_back(keys_lst.at(1));
+                    // addit_list.push_back();
+                    // addit_list.push_back();
                     addit_list.push_back(b1.getVal());
                     addit_list.push_back(b2.getVal());
                     lst[addit_list] += 1;

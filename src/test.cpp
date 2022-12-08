@@ -367,7 +367,7 @@ TEST_CASE("STR_AS_BITSET") {
 TEST_CASE("ANALYSIS") {
     std::string clText = "";
     std::string word = "HELLO";
-    std::string opText = "HELLOABCDEFGHIJKLMNOPQRSTUVWXYZZYXWVUTSRQPONMLKJIHGFEDCBA"; // 7 pos
+    std::string opText = "AHELLOBCDEFGHIJKLMNOPQRSTUVWXYZZYXWVUTSRQPONMLKJIHGFEDCBA"; // 7 pos
     int a1 = 2;
     int a2 = 3;
     int b1 = 4;
