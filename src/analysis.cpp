@@ -127,7 +127,10 @@ double get_IC(std::string str) {
 void get_bettas(Polynomial& b1, Polynomial& b2, Polynomial y1, Polynomial y2, Polynomial f1, Polynomial f2, int i) {
     Polynomial n{{Monomial{0,0}}, BASE};
     auto t = Polynomial{{Monomial{fib(i+1),0}}, BASE};
-    auto tt = Polynomial{{Monomial{fib(i-1),0}}, BASE};
+    auto tt = Polynomial{{Monomial{1,0}}, BASE};
+    if (i != 0) {
+        tt = Polynomial{{Monomial{fib(i-1),0}}, BASE};
+    } 
     auto  r = Polynomial{{Monomial{fib(i),0}}, BASE};
     auto q = (y2+f2)*r;
     q = q * Polynomial{{Monomial{-1,0}}, BASE};
@@ -170,19 +173,59 @@ void get_bettas(Polynomial& b1, Polynomial& b2, Polynomial y1, Polynomial y2, Po
 //     b2 = reduce(b2);
 // }
 
+// int find_vec(std::vector<std::vector<int>> table, int x, int y) {
+//     // if (x == 1 && y == 20)
+//     // {
+//     //     auto ppsda = 12;
+//     // }
+//     for (int ind =0; ind< table.size(); ind++) {
+//         // if (ind == 40) {
+//         //     auto ppsda = 12;
+//         // }
+//         if (table.at(ind).at(2) == x && table.at(ind).at(3) == y) {
+//                 return ind;
+//             }
+//     }
+// }
+
+void get_parent_keys(int& k1, int& k2, int a1, int a2, int pos1, Galois_field& g) {
+    for (int i=0; i<pos1; i++) {
+        int buf = a1;
+        auto temp1 = g.atRevVector(Polynomial{Counter{SIZE, BASE}+a1, BASE});
+        auto temp2 = Polynomial{Counter{SIZE, BASE}+a2, BASE};
+        a1 = g.atMultiTable(temp1, temp2).getVal();
+        a2 = buf;
+    }
+    k1 = a1;
+    k2 = a2;
+}
 
 void get_alphas(const std::string& clText, const std::string& word, std::vector<std::vector<int>>& keys, Galois_field& g, int pos) {
     static const std::string alph = "ABCDEFGHIJKLMNOPQRSTUVWXYZ";
     // std::string sstr = "";
-    static std::vector<int> keys_lst;
+    // static std::vector<int> keys_lst;
     std::map<std::vector<int>, int> lst;
     int fordeletevar = 0;
     std::string help_var = "";
     // std::vector<int> vec;
     std::vector<int> addit_list;
-
+    // static std::vector<std::vector<int>> table;
+    // std::vector<int> help_vec{0,0,0,0};
+    // if (pos == 0) {
+    //     for (int i=1; i < MOD; i++) {
+    //         help_vec.at(0) = i;
+    //         help_vec.at(2) = i;
+    //         for (int j=1; j < MOD; j++) {
+    //             help_vec.at(1) = j;
+    //             help_vec.at(3) = j;
+    //             table.push_back(help_vec);
+    //         }
+    //     }
+    // }
     int showvar1 = 0;
     int showvar2 = 0;
+    int k1 = 0;
+    int k2 = 0;
     // std::map<std::vector<int>, int> lst;
     // int start_pos = num;
     Polynomial b1{{Monomial{0,0}}, BASE};
@@ -221,16 +264,25 @@ void get_alphas(const std::string& clText, const std::string& word, std::vector<
                     a1 = g.atMultiTable(Polynomial{c2, BASE}, Polynomial{c_start, BASE}); // aa
                     a2 = g.atMultiTable(Polynomial{c_start, BASE},  Polynomial{c1, BASE}); // aa
                     a3 = g.atMultiTable(Polynomial{c1, BASE}, Polynomial{c2, BASE}); // aa
-                    keys_lst.push_back(a1.getVal());
-                    keys_lst.push_back(a2.getVal());
+                    // if (i == 0 && j == 19){
+                    // auto ppsda = 12;
+                    // }
+                    // auto ind = find_vec(table, i+1, j+1);
+                    // auto index = (MOD-1)*(table.at(ind).at(0)-1)+(table.at(ind).at(1)-1);
+                    // table.at(index).at(2) = a2.getVal();
+                    // table.at(index).at(3) = a3.getVal();
+                    // keys_lst.push_back(a1.getVal());
+                    // keys_lst.push_back(a2.getVal());
                 }
                 else {
-                        a1 = a2;                     // aa
-                        a2 = a3;                     // aa
-                        a3 = g.atMultiTable(a1, a2); // aa
+                        // a1 = a2;                     // aa
+                        // a2 = a3;                     // aa
+                        // a3 = g.atMultiTable(a1, a2); // aa
                     if (k == 0) {
-                        a1 = {Counter{SIZE, BASE}+keys_lst.at(0), BASE};            // aa
-                        a2 = {Counter{SIZE, BASE}+keys_lst.at(1), BASE};                     // aa
+                        // a1 = {Counter{SIZE, BASE}+keys_lst.at(0), BASE};            // aa
+                        // a2 = {Counter{SIZE, BASE}+keys_lst.at(1), BASE};                     // aa
+                        a1 = {Counter{SIZE, BASE}+i+1, BASE};            // aa
+                        a2 = {Counter{SIZE, BASE}+j+1, BASE};   
                         a3 = g.atMultiTable(a1, a2); // aa
                     } else {
                         a1 = a2;                     // aa
@@ -241,6 +293,15 @@ void get_alphas(const std::string& clText, const std::string& word, std::vector<
                 showvar1 = a1.getVal();
                 showvar2 = a2.getVal();
                 if (k ==0 && pos == 1 && showvar1 == 3 && showvar2 == 6) {
+                    fordeletevar = 0;
+                }
+                if (k ==0 && pos == 0 && i == 1 && j == 2) {
+                    fordeletevar = 0;
+                }
+                if (k ==1 && pos == 0 && i == 0 && j == 0) {
+                    fordeletevar = 0;
+                }
+                if (k ==2 && pos == 0 && a1.getVal() == 6 && a2.getVal() == 18) {
                     fordeletevar = 0;
                 }
                 help_var = word.at(size_t(k));
@@ -279,11 +340,31 @@ void get_alphas(const std::string& clText, const std::string& word, std::vector<
                     if (i == 1 && j == 2) {
                         fordeletevar = 1;
                     }
-                    get_bettas(b1, b2, y1, y2, f1, f2, pos);
+                    get_bettas(b1, b2, y1, y2, f1, f2, k+pos);
                     // addit_list.push_back((a1.getVal(), a2.getVal(),
                     // b1.getVal(), b2.getVal()));
-                    addit_list.push_back(keys_lst.at(0));
-                    addit_list.push_back(keys_lst.at(1));
+                    // addit_list.push_back(keys_lst.at(0));
+                    // addit_list.push_back(keys_lst.at(1));
+                    // addit_list.push_back(i+1);
+                    // addit_list.push_back(j+1);
+                    // if (i == 0 && j == 19){
+                    // auto ppsda = 12;
+                    // }
+                    // if (i == 1 && j == 12) {
+                    // auto ppsda = 12;
+                    //     }
+                    // auto ind1 = find_vec(table, a1.getVal(), a2.getVal());
+                    // auto index1 = (MOD-1)*(table.at(ind1).at(0)-1)+(table.at(ind1).at(1)-1);
+
+                    // addit_list.push_back(table.at(index1).at(2));
+                    // addit_list.push_back(table.at(index1).at(3));
+                    if (a1.getVal() == 3 && a2.getVal() == 6 && pos == 1) {
+                        fordeletevar = 1;
+                    }
+                    get_parent_keys(k1, k2, a1.getVal(), a2.getVal(), pos, g);
+                    addit_list.push_back(k1);
+                    addit_list.push_back(k2);
+                    
                     // addit_list.push_back();
                     // addit_list.push_back();
                     addit_list.push_back(b1.getVal());
@@ -295,7 +376,18 @@ void get_alphas(const std::string& clText, const std::string& word, std::vector<
                 // ++c1;
             }
             ++c1;
-            keys_lst.clear();
+            // keys_lst.clear();
+        if (i == 1 && j == 12) {
+        auto ppsda = 12;
+        }
+        // auto ind = find_vec(table, i+1, j+1);
+        // auto index = (MOD-1)*(table.at(ind).at(0)-1)+(table.at(ind).at(1)-1);
+        // if (i == 1 && j == 12) {
+        // auto ppsda = 12;
+        // }
+        // auto buf = table.at(index).at(2);
+        // table.at(index).at(2) = table.at(index).at(3);
+        // table.at(index).at(3) = reduce((Polynomial{Counter{SIZE, BASE}+ buf, BASE} * Polynomial{Counter{SIZE, BASE}+ table.at(index).at(2), BASE})).getVal();
         }
         c1 = {SIZE, BASE};
         ++c1;
@@ -339,11 +431,12 @@ void get_alphas(const std::string& clText, const std::string& word, std::vector<
 std::string analysis(std::string clText, std::string word) {
     Galois_field g{3,3};
     const auto IC = 0.0667; // for eng
+    double buf = 1000;
     // std::string clText = "jdnfjfnfdjdnfjdfn";
     // std::string word = "help";
     std::string text = "";
     for (int i=0; i < int(clText.size()-word.size()+1); i++) {
-    double buf = 1000;
+    // double buf = 1000;
     std::string str = "";
     std::vector<int> a1;
     std::vector<int> a2;
