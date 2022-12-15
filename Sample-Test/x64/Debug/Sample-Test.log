@@ -1,0 +1,4 @@
+﻿  pch.cpp
+  test.cpp
+test.obj : error LNK2019: ссылка на неразрешенный внешний символ "int __cdecl translate(class std::basic_string<char,struct std::char_traits<char>,class std::allocator<char> >,class std::basic_string<char,struct std::char_traits<char>,class std::allocator<char> >)" (?translate@@YAHV?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@std@@0@Z) в функции "private: virtual void __cdecl TestCaseNameTRANSLATE_TestCaseNameTRANSLATE_Test::TestBody(void)" (?TestBody@TestCaseNameTRANSLATE_TestCaseNameTRANSLATE_Test@@EEAAXXZ).
+C:\Users\Владик\Desktop\Новая папка (2)\new2\Project1\x64\Debug\Sample-Test.exe : fatal error LNK1120: неразрешенных внешних элементов: 1

@@ -1,0 +1,5 @@
+C:/Users/Владик/Desktop/new2/Project1/out/build/x64-Debug/CMakeFiles/Cryptography-test.dir
+C:/Users/Владик/Desktop/new2/Project1/out/build/x64-Debug/CMakeFiles/cloud-test.dir
+C:/Users/Владик/Desktop/new2/Project1/out/build/x64-Debug/CMakeFiles/Cryptography.dir
+C:/Users/Владик/Desktop/new2/Project1/out/build/x64-Debug/CMakeFiles/edit_cache.dir
+C:/Users/Владик/Desktop/new2/Project1/out/build/x64-Debug/CMakeFiles/rebuild_cache.dir

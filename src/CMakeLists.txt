@@ -12,11 +12,11 @@
 
 cmake_minimum_required(VERSION 3.10.0)
 # add_executable(Cryptography-test Counter.hpp Affine_Cipher.hpp Counter.hpp Monomial.hpp  Polynomial.hpp  Recurrent_Affine_Cipher.hpp  Substitution.hpp test.cpp)
-add_executable(Cryptography-test analysis.cpp Translate_to_bin.cpp toUpperCase.cpp Translate.cpp Galois_field.cpp Affine_Cipher.cpp Counter.cpp Monomial.cpp  Polynomial.cpp  Recurrent_Affine_Cipher.cpp  Substitution_Cipher.cpp test.cpp)
+add_executable(Cryptography-test Translate_to_bin.cpp toUpperCase.cpp Translate.cpp Galois_field.cpp Affine_Cipher.cpp Counter.cpp Monomial.cpp  Polynomial.cpp  Recurrent_Affine_Cipher.cpp  Substitution_Cipher.cpp test.cpp)
 target_link_libraries(Cryptography-test PUBLIC doctest default)
-add_test(NAME Cryptography-test COMMAND Cryptography-test)
+add_test(NAME Cryptography-test COMMAND Cryptography-test) 
 add_custom_target(cloud-test COMMAND Cryptography-test)
 
 # add_executable(Cryptography Counter.hpp Affine_Cipher.hpp Counter.hpp Monomial.hpp  Polynomial.hpp  Recurrent_Affine_Cipher.hpp  Substitution.hpp main.cpp)
-add_executable(Cryptography analysis.cpp Translate_to_bin.cpp toUpperCase.cpp Translate.cpp Galois_field.cpp Affine_Cipher.cpp Counter.cpp Monomial.cpp Polynomial.cpp  Recurrent_Affine_Cipher.cpp  Substitution_Cipher.cpp main.cpp)
+add_executable(Cryptography Translate_to_bin.cpp toUpperCase.cpp Translate.cpp Galois_field.cpp Affine_Cipher.cpp Counter.cpp Monomial.cpp Polynomial.cpp  Recurrent_Affine_Cipher.cpp  Substitution_Cipher.cpp main.cpp)
 target_link_libraries(Cryptography PUBLIC default)

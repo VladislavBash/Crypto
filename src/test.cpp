@@ -11,7 +11,6 @@
 #include "Recurrent_Affine_Cipher.hpp"
 #include "Substitution_Cipher.hpp"
 #include "Translate.hpp"
-#include "analysis.hpp"
 
 // std::locale locale("");
 // std::locale::global("");
@@ -364,14 +363,3 @@ TEST_CASE("STR_AS_BITSET") {
 //         REQUIRE(optext == test);
 //     }
 // }
-TEST_CASE("ANALYSIS") {
-    std::string clText = "";
-    std::string word = "HELLO";
-    std::string opText = "HELLOABCDEFGHIJKLMNOPQRSTUVWXYZZYXWVUTSRQPONMLKJIHGFEDCBA"; // 7 pos
-    int a1 = 2;
-    int a2 = 3;
-    int b1 = 4;
-    int b2 = 6;
-    clText = Recurrent_Affine_Cipher::Encrypt(opText, a1, a2, b1, b2, "eng");
-    REQUIRE(analysis(clText, word) == opText);
-}
