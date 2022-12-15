@@ -3,18 +3,18 @@
   doctest.cpp
   Galois_field.cpp
   main.cpp
-C:\Users\Владик\Desktop\Новая папка (2)\new2\Project1\src\main.cpp(151,20): warning C4101: Len: неиспользованная локальная переменная
-C:\Users\Владик\Desktop\Новая папка (2)\new2\Project1\src\main.cpp(150,11): warning C4101: StrA: неиспользованная локальная переменная
-C:\Users\Владик\Desktop\Новая папка (2)\new2\Project1\src\main.cpp(151,9): warning C4101: a: неиспользованная локальная переменная
-C:\Users\Владик\Desktop\Новая папка (2)\new2\Project1\src\main.cpp(151,15): warning C4101: sum: неиспользованная локальная переменная
-C:\Users\Владик\Desktop\Новая папка (2)\new2\Project1\src\main.cpp(151,12): warning C4101: b: неиспользованная локальная переменная
-C:\Users\Владик\Desktop\Новая папка (2)\new2\Project1\src\main.cpp(143,11): warning C4101: IDC_GRPBUTTONS: неиспользованная локальная переменная
-C:\Users\Владик\Desktop\Новая папка (2)\new2\Project1\src\main.cpp(543,53): warning C4267: аргумент: преобразование из "size_t" в "int"; возможна потеря данных
-C:\Users\Владик\Desktop\Новая папка (2)\new2\Project1\src\main.cpp(393,11): warning C4101: IDC_GRPBUTTONS: неиспользованная локальная переменная
-C:\Users\Владик\Desktop\Новая папка (2)\new2\Project1\src\main.cpp(658,15): warning C4101: sum: неиспользованная локальная переменная
-C:\Users\Владик\Desktop\Новая папка (2)\new2\Project1\src\main.cpp(650,11): warning C4101: IDC_GRPBUTTONS: неиспользованная локальная переменная
-C:\Users\Владик\Desktop\Новая папка (2)\new2\Project1\src\main.cpp(926,25): warning C4101: sum: неиспользованная локальная переменная
-C:\Users\Владик\Desktop\Новая папка (2)\new2\Project1\src\main.cpp(918,11): warning C4101: IDC_GRPBUTTONS: неиспользованная локальная переменная
+C:\Users\Владик\Desktop\CRYPTA\crypto\src\main.cpp(151,20): warning C4101: Len: неиспользованная локальная переменная
+C:\Users\Владик\Desktop\CRYPTA\crypto\src\main.cpp(150,11): warning C4101: StrA: неиспользованная локальная переменная
+C:\Users\Владик\Desktop\CRYPTA\crypto\src\main.cpp(151,9): warning C4101: a: неиспользованная локальная переменная
+C:\Users\Владик\Desktop\CRYPTA\crypto\src\main.cpp(151,15): warning C4101: sum: неиспользованная локальная переменная
+C:\Users\Владик\Desktop\CRYPTA\crypto\src\main.cpp(151,12): warning C4101: b: неиспользованная локальная переменная
+C:\Users\Владик\Desktop\CRYPTA\crypto\src\main.cpp(143,11): warning C4101: IDC_GRPBUTTONS: неиспользованная локальная переменная
+C:\Users\Владик\Desktop\CRYPTA\crypto\src\main.cpp(543,53): warning C4267: аргумент: преобразование из "size_t" в "int"; возможна потеря данных
+C:\Users\Владик\Desktop\CRYPTA\crypto\src\main.cpp(393,11): warning C4101: IDC_GRPBUTTONS: неиспользованная локальная переменная
+C:\Users\Владик\Desktop\CRYPTA\crypto\src\main.cpp(658,15): warning C4101: sum: неиспользованная локальная переменная
+C:\Users\Владик\Desktop\CRYPTA\crypto\src\main.cpp(650,11): warning C4101: IDC_GRPBUTTONS: неиспользованная локальная переменная
+C:\Users\Владик\Desktop\CRYPTA\crypto\src\main.cpp(926,25): warning C4101: sum: неиспользованная локальная переменная
+C:\Users\Владик\Desktop\CRYPTA\crypto\src\main.cpp(918,11): warning C4101: IDC_GRPBUTTONS: неиспользованная локальная переменная
 C:\Program Files\Microsoft Visual Studio\2022\Community\VC\Tools\MSVC\14.34.31933\include\xstring(2857,53): warning C4244: аргумент: преобразование "wchar_t" в "const _Elem", возможна потеря данных
           with
           [
@@ -36,14 +36,14 @@ C:\Program Files\Microsoft Visual Studio\2022\Community\VC\Tools\MSVC\14.34.3193
               _Sent=wchar_t *,
               _Size=unsigned __int64
           ]
-C:\Users\Владик\Desktop\Новая папка (2)\new2\Project1\src\main.cpp(564,1): message : выполняется компиляция ссылки на экземпляр шаблон функции "std::basic_string<char,std::char_traits<char>,std::allocator<char>>::basic_string<std::_String_iterator<std::_String_val<std::_Simple_types<_Elem>>>,0>(_Iter,_Iter,const _Alloc &)"
+C:\Users\Владик\Desktop\CRYPTA\crypto\src\main.cpp(564,1): message : выполняется компиляция ссылки на экземпляр шаблон функции "std::basic_string<char,std::char_traits<char>,std::allocator<char>>::basic_string<std::_String_iterator<std::_String_val<std::_Simple_types<_Elem>>>,0>(_Iter,_Iter,const _Alloc &)"
           with
           [
               _Elem=wchar_t,
               _Iter=std::_String_iterator<std::_String_val<std::_Simple_types<wchar_t>>>,
               _Alloc=std::allocator<char>
           ]
-C:\Users\Владик\Desktop\Новая папка (2)\new2\Project1\src\main.cpp(564,31): message : выполняется компиляция ссылки на экземпляр шаблон функции "std::basic_string<char,std::char_traits<char>,std::allocator<char>>::basic_string<std::_String_iterator<std::_String_val<std::_Simple_types<_Elem>>>,0>(_Iter,_Iter,const _Alloc &)"
+C:\Users\Владик\Desktop\CRYPTA\crypto\src\main.cpp(564,31): message : выполняется компиляция ссылки на экземпляр шаблон функции "std::basic_string<char,std::char_traits<char>,std::allocator<char>>::basic_string<std::_String_iterator<std::_String_val<std::_Simple_types<_Elem>>>,0>(_Iter,_Iter,const _Alloc &)"
           with
           [
               _Elem=wchar_t,
@@ -55,9 +55,9 @@ C:\Users\Владик\Desktop\Новая папка (2)\new2\Project1\src\main.c
   Recurrent_Affine_Cipher.cpp
   Substitution_Cipher.cpp
   test.cpp
-C:\Users\Владик\Desktop\Новая папка (2)\new2\Project1\src\test.cpp(102,19): warning C4244: инициализация: преобразование "double" в "int", возможна потеря данных
+C:\Users\Владик\Desktop\CRYPTA\crypto\src\test.cpp(102,19): warning C4244: инициализация: преобразование "double" в "int", возможна потеря данных
   toUpperCase.cpp
   Translate.cpp
   Translate_to_bin.cpp
   Создание кода...
-  Project1.vcxproj -> C:\Users\Владик\Desktop\Новая папка (2)\new2\Project1\x64\Debug\Project1.exe
+  Project1.vcxproj -> C:\Users\Владик\Desktop\CRYPTA\crypto\x64\Debug\Project1.exe
