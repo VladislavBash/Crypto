@@ -338,6 +338,26 @@ TEST_CASE("STR_AS_BITSET") {
     REQUIRE(TextToBinaryString(optext.substr(4,1)) == "01001111");
 }
 
+// TEST_CASE("ANALYSIS") {
+//     double IC = 0.0667;
+//     std::string clText = "";
+//     // std::string word = "HELLO";
+//     // std::string opText = "AHELLOBCDEFGHIJKLMNOPQRSTUVWXYZZYXWVUTSRQPONMLKJIHGFEDCBA"; // 7 pos
+//     std::string word = "JIM";
+//     // std::string opText = "ABCDTHEEFGHIJKLMNOPQRSTUVWXYZZYXWVUTSRQPONMLKJIHTHEGFEDCBA"; // 7 pos
+//     // std::string opText = "ABCDTHEEFGHIJKLMNO"; // 7 pos
+//     // std::string word = "TIME";
+//     std::string opText = "WITHTHATCHAINONHISWATCHJIMCOULDLOOKATHEWATCH"; // 7 pos
+//     // std::string opText = "WTHAW"; // 7 pos
+//     // std::string opText = "ATHEBCDEFGHIJKLMNOPQ"; // 7 pos
+//     int a1 = 4;
+//     int a2 = 25;
+//     int b1 = 9;
+//     int b2 = 11;
+//     clText = Recurrent_Affine_Cipher::Encrypt(opText, a1, a2, b1, b2, "eng");
+//     // REQUIRE(analysis(clText, word).at(0) == opText);
+//     REQUIRE(is_contain(analysis(clText, word, IC, 200), opText));
+// }
 // TEST_CASE("STR_AS_BITSET") {
 //     std::string optext = "HELLO";
 //     std::string binoptext = TextToBinaryString(optext);
@@ -366,14 +386,25 @@ TEST_CASE("STR_AS_BITSET") {
 //         REQUIRE(optext == test);
 //     }
 // }
-TEST_CASE("ANALYSIS") {
-    std::string clText = "";
-    std::string word = "HELLO";
-    std::string opText = "AHELLOBCDEFGHIJKLMNOPQRSTUVWXYZZYXWVUTSRQPONMLKJIHGFEDCBA"; // 7 pos
-    int a1 = 1;
-    int a2 = 1;
-    int b1 = 4;
-    int b2 = 6;
-    clText = Recurrent_Affine_Cipher::Encrypt(opText, a1, a2, b1, b2, "eng");
-    REQUIRE(analysis(clText, word) == opText);
+bool is_contain(std::vector<std::string> lst, std::string opText) {
+    for (auto x: lst) {
+        if (x == opText) {
+            return true;
+        }
+    }
+    return false;
 }
+
+TEST_CASE("ANALYSIS") {
+    double IC = 0.0667;
+    std::string clText = "";
+    std::string word = "JIM";
+    std::string opText = "WITHTHATCHAINONHISWATCHJIMCOULDLOOKATHEWATCH";
+    int a1 = 4;
+    int a2 = 25;
+    int b1 = 9;
+    int b2 = 11;
+    clText = Recurrent_Affine_Cipher::Encrypt(opText, a1, a2, b1, b2, "eng");
+    REQUIRE(is_contain(analysis(clText, word, IC, 200), opText));
+}
+

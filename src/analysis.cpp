@@ -32,12 +32,17 @@ std::map<std::string, int> count(std::string str) {
 
 double get_IC(std::string str) {
     double IC = 0;
+    double i1 = 0;
+    double i2 = 0;
     int N = int(str.size());
     auto arr = count(str);
     int n = 0;
     for (auto x: arr) {
         n = x.second;
-        IC += (n*(n-1))/(N*(N-1));
+        // IC += (n*(n-1))/(N*(N-1));
+        i1 = (n*(n-1));
+        i2 = (N*(N-1));
+        IC += i1/i2;
     }
     return IC;
 }
@@ -152,8 +157,12 @@ void get_bettas(Polynomial& b1, Polynomial& b2, Polynomial y1, Polynomial y2, Po
 }
 
 
-void get_alphas(const std::string& clText, const std::string& word, std::vector<std::vector<int>>& keys, Galois_field& g) {
+std::vector<std::string> get_alphas(const std::string& clText, const std::string& word, std::vector<std::vector<int>>& keys, Galois_field& g, double ACCURACY, int AMOUNT, int start_pos=0) {
     static const std::string alph = "ABCDEFGHIJKLMNOPQRSTUVWXYZ";
+    const auto IC = 0.0667;
+    std::vector<std::string> texts_lst;
+    int buf = 1000;
+    std::string text = "";
     // std::string sstr = "";
     std::vector<int> keys_lst;
     std::map<std::vector<int>, int> lst;
@@ -189,7 +198,7 @@ void get_alphas(const std::string& clText, const std::string& word, std::vector<
         for (int j=0; j < MOD-2; j++) {
             // keys_lst.push_back(a1.getVal());
             // keys_lst.push_back(a2.getVal());
-            for (int pos=0; pos < int(clText.size()-word.size()+1); pos++) {
+            for (int pos=start_pos; pos < int(clText.size()-word.size()+1); pos++) {
                 // if (a1.getVal() == 3 && a2.getVal() == 6) {
                 //     fordeletevar = 1;
                 // }
@@ -197,7 +206,7 @@ void get_alphas(const std::string& clText, const std::string& word, std::vector<
             if (i == 1 && j == 2 && pos == 1 && k == 0) {
                     fordeletevar = 1;
                 }
-                if (k+pos == 0) {
+                if (pos == 0) {
                     // a1 = g.atMultiTable(Polynomial{c1, BASE},
                     // Polynomial{c_start, BASE}); // aa a2 =
                     // g.atMultiTable(Polynomial{c_start, BASE}, Polynomial{c2,
@@ -265,6 +274,23 @@ void get_alphas(const std::string& clText, const std::string& word, std::vector<
                     get_bettas(b1, b2, y1, y2, f1, f2, pos+k);
                     // addit_list.push_back((a1.getVal(), a2.getVal(),
                     // b1.getVal(), b2.getVal()));
+                    std::string str = "";
+                    str = Recurrent_Affine_Cipher::Decrypt(clText, keys_lst.at(0), keys_lst.at(1), b1.getVal(), b2.getVal(), "eng");
+
+                    if (abs(get_IC(str) - IC) < buf) {
+                        buf = abs(get_IC(str) - IC);
+                        text = str;
+                    }
+                    if (abs(get_IC(str) - IC) < ACCURACY) {
+                        // text = str;
+                        texts_lst.push_back(str);
+                        // return text;
+                    }
+                    if (texts_lst.size() == AMOUNT) {
+                        return texts_lst;
+                    }
+                    }
+                    // }
                     addit_list.push_back(keys_lst.at(0));
                     addit_list.push_back(keys_lst.at(1));
                     addit_list.push_back(b1.getVal());
@@ -272,9 +298,10 @@ void get_alphas(const std::string& clText, const std::string& word, std::vector<
                     lst[addit_list] += 1;
                     addit_list.clear();
                     // vec.clear();
-                }
+                // }
                 // ++c1;
             }
+            // keys_lst.clear();
             // ++c1;
             // keys_lst.clear();
             }
@@ -288,7 +315,7 @@ void get_alphas(const std::string& clText, const std::string& word, std::vector<
         // ++c1;
         // ++c2;
     }
-    
+    return texts_lst;
     // c1 = {SIZE, BASE};
     // c2 = {SIZE, BASE};
     // ++c1;
@@ -320,7 +347,7 @@ void get_alphas(const std::string& clText, const std::string& word, std::vector<
 //     return 1;
 // }
 
-std::string analysis(std::string clText, std::string word) {
+std::vector<std::string> analysis(std::string clText, std::string word, double ACCURACY, int AMOUNT, int start_pos) {
     Galois_field g{3,3};
     const auto IC = 0.0667; // for eng
     // std::string clText = "jdnfjfnfdjdnfjdfn";
@@ -343,28 +370,28 @@ std::string analysis(std::string clText, std::string word) {
     // get_bettas(a1 ,a2, b1, b2);
 
     // for (int j=0; j<int(keys.size()); j++) {
-    get_alphas(clText, word, keys, g); // for one certain position
+    return get_alphas(clText, word, keys, g, ACCURACY, AMOUNT, start_pos); // for one certain position
     // if (keys.size() != 0) {
     //     buf = 121;
     // }
-    for (int j=0; j<int(keys.size()); j++) {
+    // for (int j=0; j<int(keys.size()); j++) {
         
-    // }
-    // get_alphas(clText, word, keys, g, j);
-    // str = Recurrent_Affine_Cipher::Decrypt(clText, a1.at(j), a2.at(j), b1.at(j), b2.at(j), "eng");
-    str = Recurrent_Affine_Cipher::Decrypt(clText, keys.at(j).at(0), keys.at(j).at(1), keys.at(j).at(2), keys.at(j).at(3), "eng");
+    // // }
+    // // get_alphas(clText, word, keys, g, j);
+    // // str = Recurrent_Affine_Cipher::Decrypt(clText, a1.at(j), a2.at(j), b1.at(j), b2.at(j), "eng");
+    // str = Recurrent_Affine_Cipher::Decrypt(clText, keys.at(j).at(0), keys.at(j).at(1), keys.at(j).at(2), keys.at(j).at(3), "eng");
 
-    if (abs(get_IC(str) - IC) < buf) {
-        buf = abs(get_IC(str) - IC);
-        text = str;
-    }
-    if (abs(get_IC(str) - IC) == 0.0001) {
-        text = str;
-        break;
-    }
-    }
+    // if (abs(get_IC(str) - IC) < buf) {
+    //     buf = abs(get_IC(str) - IC);
+    //     text = str;
     // }
+    // if (abs(get_IC(str) - IC) == 0.0001) {
+    //     text = str;
+    //     break;
+    // }
+    // }
+    // // }
 
-    std::cout << text << std::endl;
-    return text;
+    // std::cout << text << std::endl;
+    // return text;
 }
